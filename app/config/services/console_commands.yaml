@@ -1,0 +1,13 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: false
+
+    App\User\Application\Console\RegisterUserConsoleCommand:
+        tags: { name: console.command }
+
+    App\User\Application\Console\GetUserByUuidConsoleCommand:
+        tags: { name: console.command }
+
+    App\User\Application\Console\UpdateUserNameConsoleCommand:
+        tags: { name: console.command }
