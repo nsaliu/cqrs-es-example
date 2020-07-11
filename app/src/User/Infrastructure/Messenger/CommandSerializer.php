@@ -6,8 +6,10 @@ namespace App\User\Infrastructure\Messenger;
 
 use App\User\Application\Command\CommandInterface;
 use App\User\Application\Command\RegisterUserCommand;
+use App\User\Application\Command\UpdateUserNameCommand;
 use App\User\Domain\UserUuid;
 use Symfony\Component\Messenger\Envelope;
+use Symfony\Component\Messenger\Exception\MessageDecodingFailedException;
 use Symfony\Component\Messenger\Stamp\StampInterface;
 use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
 
@@ -25,11 +27,19 @@ final class CommandSerializer implements CommandSerializerInterface
         $envelop = $this->serializer->decode($encodedEnvelope);
 
         if ($envelop->getMessage() instanceof CommandInterface) {
+            $command = $this->deserializeCommandMessage(
+                $envelop,
+                $encodedEnvelope
+            );
+
+            if ($command === null) {
+                throw new MessageDecodingFailedException(
+                    sprintf('Unable to decode command of type %s', get_class($command))
+                );
+            }
+
             return new Envelope(
-                $this->deserializeCommandMessage(
-                    $envelop,
-                    $encodedEnvelope
-                ),
+                $command,
                 $this->getStamps($envelop->all())
             );
         }
@@ -60,20 +70,26 @@ final class CommandSerializer implements CommandSerializerInterface
     private function deserializeCommandMessage(
         Envelope $envelope,
         array $encodedEnvelope
-    ): CommandInterface {
+    ): ?CommandInterface {
         $body = json_decode($encodedEnvelope['body'], true);
         $message = $envelope->getMessage();
 
         if ($message instanceof RegisterUserCommand) {
-            /** @var RegisterUserCommand $message */
-
-
             return new RegisterUserCommand(
                 UserUuid::createFromString($body['uuid']),
                 $message->getName(),
                 $message->getSurname()
             );
         }
+
+        if ($message instanceof UpdateUserNameCommand) {
+            return new UpdateUserNameCommand(
+                UserUuid::createFromString($body['uuid']),
+                $message->getName()
+            );
+        }
+
+        return null;
     }
 
     /**

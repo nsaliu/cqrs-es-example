@@ -46,12 +46,13 @@ class DoctrineUser
     public function __construct(
         UserUuid $userUuid,
         string $name,
-        string $surname
+        string $surname,
+        ?DateTimeImmutable $createdAt
     ) {
         $this->userUuid = $userUuid;
         $this->name = $name;
         $this->surname = $surname;
-        $this->createdAt = new DateTimeImmutable();
+        $this->createdAt = $createdAt ?? new DateTimeImmutable();
     }
 
     public function getUserUuid(): UserUuid
@@ -72,6 +73,11 @@ class DoctrineUser
     public function getSurname(): string
     {
         return $this->surname;
+    }
+
+    public function setSurname(string $surname): void
+    {
+        $this->surname = $surname;
     }
 
     public function getCreatedAt(): DateTimeImmutable

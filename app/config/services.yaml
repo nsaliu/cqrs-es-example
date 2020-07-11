@@ -1,6 +1,7 @@
 imports:
     - { resource: services/repositories.yaml }
     - { resource: services/console_commands.yaml }
+    - { resource: services/translators.yaml }
 
 parameters: ~
 

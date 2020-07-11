@@ -3,7 +3,9 @@ services:
         autowire: true
         autoconfigure: false
 
-    App\User\Infrastructure\Doctrine\Repository\UserRepository: ~
+    App\User\Infrastructure\Doctrine\Repository\UserRepository:
+        arguments:
+            $userTranslator: '@App\User\Infrastructure\Translator\UserTranslator'
 
     App\User\Domain\Repository\UserRepositoryInterface:
         alias: App\User\Infrastructure\Doctrine\Repository\UserRepository
