@@ -24,6 +24,18 @@ services:
     ports:
       - 3306:3306
 
+  rabbit:
+    container_name: rabbit
+    image: rabbitmq:3.8.5-management
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq/mnesia/rabbit@app-rabbitmq:cached
+    environment:
+      RABBITMQ_ERLANG_COOKIE: 6085e2412b6fa88647466c6a81c0cea0
+      RABBITMQ_DEFAULT_VHOST: /
+
 volumes:
   php:
     driver: local
@@ -36,4 +48,10 @@ volumes:
     driver_opts:
       type: none
       device: $PWD/docker/mysql/storage
+      o: bind
+  rabbitmq-data:
+    driver: local
+    driver_opts:
+      type: none
+      device: $PWD/docker/rabbitmq/data
       o: bind

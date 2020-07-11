@@ -1,10 +1,22 @@
 framework:
     messenger:
         default_bus: messenger.bus.command
+        serializer:
+            default_serializer: messenger.transport.symfony_serializer
+            symfony_serializer:
+                format: json
+
         transports:
-            sync: 'sync://'
+            cqrs_es_example:
+                dsn: '%env(resolve:MESSENGER_TRANSPORT_DSN)%'
+                options:
+                    queues:
+                        cqrs_es_example_queue: ~
+                serializer: App\User\Infrastructure\Messenger\CommandSerializerInterface
+
         routing:
-            App\User\Application\Command\CommandInterface: sync
+            App\User\Application\Command\CommandInterface: cqrs_es_example
+
         buses:
             messenger.bus.command: ~
             messenger.bus.query: ~

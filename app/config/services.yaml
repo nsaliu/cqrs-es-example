@@ -36,3 +36,11 @@ services:
         resource: '../src/User/Application/Query/*Handler.php'
         tags:
             - { name: messenger.message_handler, bus: messenger.bus.query }
+
+    # custom serializer
+    App\User\Infrastructure\Messenger\CommandSerializer:
+        arguments:
+            $serializer: '@messenger.transport.symfony_serializer'
+
+    App\User\Infrastructure\Messenger\CommandSerializerInterface:
+        alias: App\User\Infrastructure\Messenger\CommandSerializer

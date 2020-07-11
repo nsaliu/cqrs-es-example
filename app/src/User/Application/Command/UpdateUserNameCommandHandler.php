@@ -18,7 +18,7 @@ final class UpdateUserNameCommandHandler implements MessageSubscriberInterface
 
     public function __invoke(UpdateUserNameCommand $command)
     {
-        $user = $this->userRepository->get($command->getUserUuid());
+        $user = $this->userRepository->get($command->getUuid());
 
         $user->updateName($command->getUserName());
 
