@@ -8,21 +8,21 @@ use App\User\Domain\UserUuid;
 
 final class UpdateUserNameCommand implements CommandInterface
 {
-    private UserUuid $userUuid;
+    private UserUuid $uuid;
 
     private string $userName;
 
     public function __construct(
-        UserUuid $userUuid,
+        UserUuid $uuid,
         string $userName
     ) {
-        $this->userUuid = $userUuid;
+        $this->uuid = $uuid;
         $this->userName = $userName;
     }
 
-    public function getUserUuid(): UserUuid
+    public function getUuid(): UserUuid
     {
-        return $this->userUuid;
+        return $this->uuid;
     }
 
     public function getUserName(): string

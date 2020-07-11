@@ -8,25 +8,25 @@ use App\User\Domain\UserUuid;
 
 final class RegisterUserCommand implements CommandInterface
 {
-    private UserUuid $id;
+    private UserUuid $uuid;
 
     private string $name;
 
     private string $surname;
 
     public function __construct(
-        UserUuid $id,
+        UserUuid $uuid,
         string $name,
         string $surname
     ) {
-        $this->id = $id;
+        $this->uuid = $uuid;
         $this->name = $name;
         $this->surname = $surname;
     }
 
-    public function getId(): UserUuid
+    public function getUuid(): UserUuid
     {
-        return $this->id;
+        return $this->uuid;
     }
 
     public function getName(): string

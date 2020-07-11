@@ -1,2 +1,4 @@
 !docker/mysql/storage/.gitkeep
 docker/mysql/storage/*
+!docker/rabbitmq/data/.gitkeep
+docker/rabbitmq/data/*

@@ -6,7 +6,6 @@ namespace App\User\Application\Command;
 
 use App\User\Domain\Repository\UserRepositoryInterface;
 use App\User\Domain\User;
-use App\User\Domain\UserUuid;
 use Symfony\Component\Messenger\Handler\MessageSubscriberInterface;
 
 final class RegisterUserCommandHandler implements MessageSubscriberInterface
@@ -21,7 +20,7 @@ final class RegisterUserCommandHandler implements MessageSubscriberInterface
     public function __invoke(RegisterUserCommand $command)
     {
         $user = new User(
-            UserUuid::createNew(),
+            $command->getUuid(),
             $command->getName(),
             $command->getSurname()
         );

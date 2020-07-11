@@ -8,9 +8,12 @@ RUN apk update \
     bash \
     git \
     zip \
-    unzip
+    unzip \
+    rabbitmq-c-dev
 
 RUN docker-php-ext-install opcache pdo_mysql mysqli
+RUN pecl install amqp-1.10.0
+RUN docker-php-ext-enable amqp
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
 	composer global require hirak/prestissimo
