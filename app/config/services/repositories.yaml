@@ -5,7 +5,7 @@ services:
 
     App\User\Infrastructure\Doctrine\Repository\UserRepository:
         arguments:
-            $userTranslator: '@App\User\Infrastructure\Translator\UserTranslator'
+            $aggregateRootRepository: '@jphooiveld_eventsauce.aggregate_repository.user'
 
     App\User\Domain\Repository\UserRepositoryInterface:
         alias: App\User\Infrastructure\Doctrine\Repository\UserRepository

@@ -6,13 +6,13 @@ namespace App\User\Domain\Exception;
 
 use Exception;
 
-final class UserIdCannotBeCreatedException extends Exception
+final class UserUuidCannotBeCreatedException extends Exception
 {
     public function __construct($uuid)
     {
         parent::__construct(
             sprintf(
-                'UserId can not be created due to invalid UUID string representation: %s',
+                'User uuid can not be created due to invalid UUID string representation: %s',
                 $uuid
             ),
             0,

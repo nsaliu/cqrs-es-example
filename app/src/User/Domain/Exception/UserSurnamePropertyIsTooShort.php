@@ -6,12 +6,12 @@ namespace App\User\Domain\Exception;
 
 use Exception;
 
-final class UserNamePropertyIsTooShort extends Exception
+final class UserSurnamePropertyIsTooShort extends Exception
 {
     public function __construct()
     {
         parent::__construct(
-            'The name of the User must have a length greater than zero',
+            'The surname of the User must have a length greater than zero',
             0,
             null
         );

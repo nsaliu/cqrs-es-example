@@ -1,0 +1,32 @@
+jphooiveld_event_sauce:
+    time_of_recording:
+        # The timezone to use for recorded messages, defaults to PHP ini setting.
+        timezone: UTC
+    messenger:
+        # Use symfony messenger instead of EventSauce's default dispatcher (needs package symfony/messenger installed).
+        enabled: true
+        # The name of the messenger command bus service to use.
+        service_bus: messenger.bus.events
+    message_repository:
+        # Override if you don't want to use the default doctrine message repository but your own implementation.
+        # If doctrine is enabled this will be ignored.
+        service: jphooiveld_eventsauce.message_repository.doctrine
+        doctrine:
+            # Use doctrine as default message repository. If you turn this off you must provide your own service.
+            enabled: true
+            # Service that implements a doctrine connection. We assume doctrine bundle default here.
+            connection: doctrine.dbal.default_connection
+            # The table name in the database to store the messages.
+            table: events
+            # JSON encode options for the doctrine message repository
+            json_encode_options:
+                - !php/const JSON_PRETTY_PRINT
+                - !php/const JSON_PRESERVE_ZERO_FRACTION
+        # Configure provided aggregate roots to use the default repository implementations as created by the bundle
+        aggregates:
+            - App\User\Domain\User
+    snapshot_repository:
+        # User snapshotting
+        enabled: false
+        # Service must point to a valid class that implements EventSauce\EventSourcing\Snapshotting\SnapshotRepository
+        service: 'App\Infrastructure\MySnapshotRepository'

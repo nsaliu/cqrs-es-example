@@ -14,7 +14,7 @@ final class Version20200710204418 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql(<<<SQL
-CREATE TABLE users (
+CREATE TABLE `users` (
     uuid    CHAR(36) NOT NULL COMMENT '(DC2Type:user_uuid)',
     name    VARCHAR(255) NOT NULL,
     surname VARCHAR(255) NOT NULL,
@@ -33,7 +33,7 @@ SQL
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql(<<<SQL
-DROP TABLE users;
+DROP TABLE IF EXISTS `users`;
 SQL
 );
     }

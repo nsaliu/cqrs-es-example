@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace App\User\Domain;
 
-interface UuidInterface
+use EventSauce\EventSourcing\AggregateRootId;
+
+interface UuidInterface extends AggregateRootId
 {
+    public function equalsTo(UuidInterface $uuid): bool;
+
     public function toString(): string;
 }

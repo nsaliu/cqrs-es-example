@@ -9,9 +9,7 @@ use App\User\Domain\UserUuid;
 
 interface UserRepositoryInterface
 {
-    public function get(UserUuid $userId): User;
-
     public function save(User $user): void;
 
-    public function update(User $user): void;
+    public function get(UserUuid $user): User;
 }

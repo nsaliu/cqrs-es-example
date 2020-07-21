@@ -10,9 +10,9 @@ use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
 use Throwable;
 
-final class UserUuidType extends Type
+final class AddressUuidType extends Type
 {
-    private const TYPE_NAME = 'user_uuid';
+    private const TYPE_NAME = 'address_uuid';
 
     public function convertToDatabaseValue(
         $value,

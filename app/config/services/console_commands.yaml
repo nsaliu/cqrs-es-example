@@ -2,12 +2,15 @@ services:
     _defaults:
         autowire: true
         autoconfigure: false
+        tags:
+            - { name: console.command }
 
-    App\User\Application\Console\RegisterUserConsoleCommand:
-        tags: { name: console.command }
+    App\User\Application\Console\RegisterUserConsoleCommand: ~
 
-    App\User\Application\Console\GetUserByUuidConsoleCommand:
-        tags: { name: console.command }
+    App\User\Application\Console\GetUserByUuidConsoleCommand: ~
 
-    App\User\Application\Console\UpdateUserNameConsoleCommand:
-        tags: { name: console.command }
+    App\User\Application\Console\UpdateUserNameConsoleCommand: ~
+
+    App\User\Application\Console\AddAddressToUserConsoleCommand: ~
+
+    App\User\Application\Console\RemoveAddressFromUserConsoleCommand: ~

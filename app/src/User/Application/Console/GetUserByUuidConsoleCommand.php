@@ -35,9 +35,11 @@ final class GetUserByUuidConsoleCommand extends Command
         parent::configure();
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $userUuid = UserUuid::createFromString($input->getArgument('uuid'));
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
+        $userUuid = UserUuid::fromString($input->getArgument('uuid'));
 
         $user = $this->queryBus->dispatch(
             new GetUserByUserUuidQuery($userUuid)
@@ -52,6 +54,6 @@ final class GetUserByUuidConsoleCommand extends Command
 
         dump($user);
 
-        return 0;
+        return self::SUCCESS;
     }
 }

@@ -1,0 +1,24 @@
+paths:
+  - ./src
+exclude_files:
+  - .*test.*
+layers:
+  - name: Application
+    collectors:
+      - type: className
+        regex: .*App\\User\\Application.*
+  - name: Domain
+    collectors:
+      - type: className
+        regex: .*App\\User\\Domain.*
+  - name: Infrastructure
+    collectors:
+      - type: className
+        regex: .*App\\User\\Infrastructure.*
+ruleset:
+  Application:
+    - Domain
+  Domain: ~
+  Infrastructure:
+    - Application
+    - Domain

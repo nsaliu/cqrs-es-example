@@ -76,7 +76,7 @@ final class CommandSerializer implements CommandSerializerInterface
 
         if ($message instanceof RegisterUserCommand) {
             return new RegisterUserCommand(
-                UserUuid::createFromString($body['uuid']),
+                UserUuid::fromString($body['uuid']),
                 $message->getName(),
                 $message->getSurname()
             );
@@ -84,7 +84,7 @@ final class CommandSerializer implements CommandSerializerInterface
 
         if ($message instanceof UpdateUserNameCommand) {
             return new UpdateUserNameCommand(
-                UserUuid::createFromString($body['uuid']),
+                UserUuid::fromString($body['uuid']),
                 $message->getName()
             );
         }

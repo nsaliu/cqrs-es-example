@@ -10,16 +10,16 @@ use Symfony\Component\Messenger\Handler\MessageSubscriberInterface;
 
 final class GetUserByUserUuidQueryHandler implements MessageSubscriberInterface
 {
-    private UserRepositoryInterface $userRepository;
+    private UserRepositoryInterface $userEventRepository;
 
-    public function __construct(UserRepositoryInterface $userRepository)
+    public function __construct(UserRepositoryInterface $userEventRepository)
     {
-        $this->userRepository = $userRepository;
+        $this->userEventRepository = $userEventRepository;
     }
 
     public function __invoke(GetUserByUserUuidQuery $query): User
     {
-        return $this->userRepository->get($query->getUserUuid());
+        return $this->userEventRepository->get($query->getUserUuid());
     }
 
     public static function getHandledMessages(): iterable

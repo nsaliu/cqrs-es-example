@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\User\Domain;
+namespace App\User\Domain\Address;
 
-use App\User\Domain\Exception\UserUuidCannotBeCreatedException;
+use App\User\Domain\Exception\Address\AddressUuidCannotBeCreatedException;
+use App\User\Domain\UuidInterface;
 use Ramsey\Uuid\Uuid;
 
-final class UserUuid implements UuidInterface
+final class AddressUuid implements UuidInterface
 {
     private string $uuid;
 
@@ -16,13 +17,13 @@ final class UserUuid implements UuidInterface
         $this->uuid = Uuid::fromString($uuid)->toString();
     }
 
-    public static function fromString(string $aggregateRootId): self
+    public static function fromString(string $uuid): self
     {
-        if (!Uuid::isValid($aggregateRootId)) {
-            throw new UserUuidCannotBeCreatedException($aggregateRootId);
+        if (!Uuid::isValid($uuid)) {
+            throw new AddressUuidCannotBeCreatedException($uuid);
         }
 
-        return new self($aggregateRootId);
+        return new self($uuid);
     }
 
     public static function createNew(): self

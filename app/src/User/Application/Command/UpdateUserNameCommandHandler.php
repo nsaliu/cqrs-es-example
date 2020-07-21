@@ -4,25 +4,27 @@ declare(strict_types=1);
 
 namespace App\User\Application\Command;
 
+use App\User\Domain\Event\UpdateUserName;
 use App\User\Domain\Repository\UserRepositoryInterface;
 use Symfony\Component\Messenger\Handler\MessageSubscriberInterface;
 
 final class UpdateUserNameCommandHandler implements MessageSubscriberInterface
 {
-    private UserRepositoryInterface $userRepository;
+    private UserRepositoryInterface $userEventRepository;
 
-    public function __construct(UserRepositoryInterface $userRepository)
+    public function __construct(UserRepositoryInterface $userEventRepository)
     {
-        $this->userRepository = $userRepository;
+        $this->userEventRepository = $userEventRepository;
     }
 
     public function __invoke(UpdateUserNameCommand $command)
     {
-        $user = $this->userRepository->get($command->getUuid());
+        $user = $this->userEventRepository->get($command->getUuid());
 
-        $user->updateName($command->getName());
+        $user->updateName(new UpdateUserName($command->getName())
+        );
 
-        $this->userRepository->update($user);
+        $this->userEventRepository->save($user);
     }
 
     public static function getHandledMessages(): iterable

@@ -41,13 +41,13 @@ final class UpdateUserNameConsoleCommand extends Command
     {
         $this->commandBus->dispatch(
             new UpdateUserNameCommand(
-                UserUuid::createFromString($input->getArgument('uuid')),
+                UserUuid::fromString($input->getArgument('uuid')),
                 $input->getArgument('name')
             )
         );
 
         $output->writeln('<info>User name updated</info>');
 
-        return 0;
+        return self::SUCCESS;
     }
 }

@@ -84,6 +84,15 @@
     "doctrine/sql-formatter": {
         "version": "1.1.0"
     },
+    "eventsauce/doctrine-message-repository": {
+        "version": "0.8.1"
+    },
+    "eventsauce/eventsauce": {
+        "version": "0.8.1"
+    },
+    "jphooiveld/eventsauce-bundle": {
+        "version": "v1.3.0"
+    },
     "laminas/laminas-code": {
         "version": "3.4.1"
     },
@@ -122,6 +131,18 @@
     },
     "ramsey/uuid": {
         "version": "4.0.1"
+    },
+    "sensiolabs-de/deptrac-shim": {
+        "version": "0.7",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "0.7",
+            "ref": "1f7e6648916732a736466ccf2caa5b4b4e7f4968"
+        },
+        "files": [
+            "depfile.yaml"
+        ]
     },
     "symfony/amqp-messenger": {
         "version": "v5.1.2"

@@ -4,68 +4,31 @@ declare(strict_types=1);
 
 namespace App\User\Infrastructure\Doctrine\Repository;
 
-use App\User\Domain\Exception\UserNotFoundByUuidException;
 use App\User\Domain\Repository\UserRepositoryInterface;
 use App\User\Domain\User;
 use App\User\Domain\UserUuid;
-use App\User\Infrastructure\Doctrine\Entity\DoctrineUser;
-use App\User\Infrastructure\Translator\UserTranslator;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use EventSauce\EventSourcing\AggregateRootRepository;
 
-final class UserRepository extends ServiceEntityRepository implements UserRepositoryInterface
+final class UserRepository implements UserRepositoryInterface
 {
-    private UserTranslator $userTranslator;
+    private AggregateRootRepository $aggregateRootRepository;
 
     public function __construct(
-        ManagerRegistry $registry,
-        UserTranslator $userTranslator
+        AggregateRootRepository $aggregateRootRepository
     ) {
-        $this->userTranslator = $userTranslator;
-
-        parent::__construct(
-            $registry,
-            DoctrineUser::class
-        );
-    }
-
-    public function get(UserUuid $userId): User
-    {
-        /** @var DoctrineUser|null $doctrineUser */
-        $doctrineUser = $this->findOneBy([
-            'userUuid' => $userId,
-        ]);
-
-        if ($doctrineUser === null) {
-            throw new UserNotFoundByUuidException($userId);
-        }
-
-        return $this->userTranslator->fromDoctrineEntityToDomainModel($doctrineUser);
+        $this->aggregateRootRepository = $aggregateRootRepository;
     }
 
     public function save(User $user): void
     {
-        $doctrineUser = $this->userTranslator->fromDomainModelToDoctrineEntity($user);
-
-        $this->getEntityManager()->persist($doctrineUser);
-        $this->getEntityManager()->flush();
+        $this->aggregateRootRepository->persist($user);
     }
 
-    public function update(User $user): void
+    public function get(UserUuid $userUuid): User
     {
-        /** @var DoctrineUser|null $doctrineUser */
-        $doctrineUser = $this->findOneBy([
-            'userUuid' => $user->getUserUuid()
-        ]);
+        /** @var User $user */
+        $user = $this->aggregateRootRepository->retrieve($userUuid);
 
-        if ($doctrineUser === null) {
-            throw new UserNotFoundByUuidException($user->getUserUuid());
-        }
-
-        $doctrineUser->setName($user->getName());
-        $doctrineUser->setSurname($user->getSurname());
-
-        $this->getEntityManager()->persist($doctrineUser);
-        $this->getEntityManager()->flush();
+        return $user;
     }
 }
