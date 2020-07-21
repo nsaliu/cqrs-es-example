@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\User\Application\Command;
 
-use App\User\Domain\Event\RemoveAddress;
 use App\User\Domain\Repository\UserRepositoryInterface;
 use App\User\Domain\UserUuid;
 use Symfony\Component\Messenger\Handler\MessageSubscriberInterface;
@@ -26,10 +25,8 @@ final class RemoveAddressCommandHandler implements MessageSubscriberInterface
         $user = $this->userRepository->get($userUuid);
 
         $user->removeAddress(
-            new RemoveAddress(
-                $userUuid,
-                $event->getAddressUuid()
-            )
+            $userUuid,
+            $event->getAddressUuid()
         );
 
         $this->userRepository->save($user);

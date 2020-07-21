@@ -14,3 +14,5 @@ services:
     App\User\Application\Console\AddAddressToUserConsoleCommand: ~
 
     App\User\Application\Console\RemoveAddressFromUserConsoleCommand: ~
+
+    App\User\Application\Console\ExampleScenarioConsoleCommand: ~

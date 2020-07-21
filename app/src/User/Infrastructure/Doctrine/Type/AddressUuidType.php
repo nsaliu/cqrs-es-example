@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\User\Infrastructure\Doctrine\Type;
 
-use App\User\Domain\UserUuid;
+use App\User\Domain\Address\AddressUuid;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
@@ -17,18 +17,22 @@ final class AddressUuidType extends Type
     public function convertToDatabaseValue(
         $value,
         AbstractPlatform $platform
-    ): string {
-        if ($value instanceof UserUuid) {
+    ): ?string {
+        if ($value === null) {
+            return null;
+        }
+
+        if ($value instanceof AddressUuid) {
             return $value->toString();
         }
 
         try {
-            return UserUuid::fromString($value)->toString();
+            return AddressUuid::fromString($value)->toString();
         } catch (Throwable $exception) {
             throw ConversionException::conversionFailedInvalidType(
                 $value,
                 $this->getName(),
-                [UserUuid::class]
+                [AddressUuid::class]
             );
         }
     }
@@ -36,13 +40,17 @@ final class AddressUuidType extends Type
     public function convertToPHPValue(
         $value,
         AbstractPlatform $platform
-    ): UserUuid {
-        if ($value instanceof UserUuid) {
+    ): ?AddressUuid {
+        if ($value === null) {
+            return null;
+        }
+
+        if ($value instanceof AddressUuid) {
             return $value;
         }
 
         try {
-            return UserUuid::fromString($value);
+            return AddressUuid::fromString($value);
         } catch (Throwable $exception) {
             throw ConversionException::conversionFailed(
                 $value,
@@ -66,5 +74,4 @@ final class AddressUuidType extends Type
     {
         return self::TYPE_NAME;
     }
-
 }

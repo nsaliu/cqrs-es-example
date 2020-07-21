@@ -34,7 +34,7 @@ final class AddAddressToUserConsoleCommand extends Command
 
         $this->addArgument('street-name', InputArgument::REQUIRED, 'An addresses street name');
 
-        $this->addArgument('streetNumber', InputArgument::REQUIRED, 'An addresses street streetNumber');
+        $this->addArgument('street-number', InputArgument::REQUIRED, 'An addresses street streetNumber');
 
         parent::configure();
     }
@@ -47,7 +47,7 @@ final class AddAddressToUserConsoleCommand extends Command
             new AddAddressCommand(
                 UserUuid::fromString($input->getArgument('user-uuid')),
                 $input->getArgument('street-name'),
-                (int) $input->getArgument('streetNumber'),
+                (int) $input->getArgument('street-number'),
             )
         );
 

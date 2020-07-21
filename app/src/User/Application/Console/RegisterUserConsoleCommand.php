@@ -30,6 +30,8 @@ final class RegisterUserConsoleCommand extends Command
 
     protected function configure(): void
     {
+        $this->addArgument('uuid', InputArgument::REQUIRED, 'The user uuid');
+
         $this->addArgument('name', InputArgument::REQUIRED, 'The user name');
 
         $this->addArgument('surname', InputArgument::REQUIRED, 'The user surname');
@@ -43,7 +45,7 @@ final class RegisterUserConsoleCommand extends Command
     ): int {
         $this->commandBus->dispatch(
             new RegisterUserCommand(
-                UserUuid::createNew(),
+                UserUuid::fromString($input->getArgument('uuid')),
                 $input->getArgument('name'),
                 $input->getArgument('surname'),
             )

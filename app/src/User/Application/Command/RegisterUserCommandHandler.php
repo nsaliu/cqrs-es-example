@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\User\Application\Command;
 
-use App\User\Domain\Event\RegisterNewUser;
 use App\User\Domain\Repository\UserRepositoryInterface;
 use App\User\Domain\User;
 use Symfony\Component\Messenger\Handler\MessageSubscriberInterface;
@@ -23,10 +22,9 @@ final class RegisterUserCommandHandler implements MessageSubscriberInterface
         $user = User::create($command->getUuid());
 
         $user->registerUser(
-            new RegisterNewUser(
-                $command->getName(),
-                $command->getSurname()
-            )
+            $command->getUuid(),
+            $command->getName(),
+            $command->getSurname()
         );
 
         $this->userEventRepository->save($user);

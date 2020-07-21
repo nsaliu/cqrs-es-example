@@ -5,14 +5,11 @@ declare(strict_types=1);
 namespace App\User\Domain;
 
 use App\User\Domain\Address\Address;
-use App\User\Domain\Event\AddAddress;
+use App\User\Domain\Address\AddressUuid;
 use App\User\Domain\Event\AddressWasAdded;
 use App\User\Domain\Event\AddressWasRemoved;
-use App\User\Domain\Event\RemoveAddress;
-use App\User\Domain\Event\UpdateUserName;
 use App\User\Domain\Event\UserNameWasUpdated;
 use App\User\Domain\Event\UserWasRegistered;
-use App\User\Domain\Event\RegisterNewUser;
 use App\User\Domain\Exception\AddressLimitReached;
 use App\User\Domain\Exception\Address\AddressStreetNameIsInvalidException;
 use App\User\Domain\Exception\Address\AddressStreetNumberIsInvalidException;
@@ -50,72 +47,89 @@ final class User implements AggregateRoot
         return $this->surname;
     }
 
-    public function registerUser(RegisterNewUser $event): void
+    public function registerUser(
+        UserUuid $userUuid,
+        string $name,
+        string $surname
+    ): void
     {
-        if (mb_strlen($event->getName()) === 0) {
+        if (mb_strlen($name) === 0) {
             throw new UserNamePropertyIsTooShort();
         }
 
-        if (mb_strlen($event->getSurname()) === 0) {
+        if (mb_strlen($surname) === 0) {
             throw new UserNamePropertyIsTooShort();
         }
 
         $this->recordThat(
             new UserWasRegistered(
-                $event->getName(),
-                $event->getSurname()
+                $userUuid,
+                $name,
+                $surname
             )
         );
     }
 
-    public function updateName(UpdateUserName $event): void
-    {
-        if (mb_strlen($event->getName()) === 0) {
+    public function updateName(
+        UserUuid $userUuid,
+        string $name
+    ): void {
+        if (mb_strlen($name) === 0) {
             throw new UserNamePropertyIsTooShort();
         }
 
         $this->recordThat(
-            new UserNameWasUpdated($event->getName())
-        );
-    }
-
-    public function addAddress(AddAddress $event): void
-    {
-        if (count($this->addresses) >= 2) {
-            throw new AddressLimitReached();
-        }
-
-        if (array_key_exists($event->getAddressUuid()->toString(), $this->addresses)) {
-            throw new ArressIsAlreadyAssociatedToUserException($event->getAddressUuid());
-        }
-
-        if (mb_strlen($event->getStreetName()) === 0) {
-            throw new AddressStreetNameIsInvalidException($event->getStreetName());
-        }
-
-        if ($event->getStreetNumber() <= 0) {
-            throw new AddressStreetNumberIsInvalidException($event->getStreetNumber());
-        }
-
-        $this->recordThat(
-            new AddressWasAdded(
-                $event->getAddressUuid(),
-                $event->getStreetName(),
-                $event->getStreetNumber()
+            new UserNameWasUpdated(
+                $userUuid,
+                $name
             )
         );
     }
 
-    public function removeAddress(RemoveAddress $event): void
-    {
-        if (!array_key_exists($event->getAddressUuid()->toString(), $this->addresses)) {
-            throw new CannotRemoveNonExistentAddressException($event->getAddressUuid());
+    public function addAddress(
+        UserUuid $userUuid,
+        AddressUuid $addressUuid,
+        string $streetName,
+        int $streetNumber
+    ): void {
+        if (count($this->addresses) >= 2) {
+            throw new AddressLimitReached();
+        }
+
+        if (array_key_exists($addressUuid->toString(), $this->addresses)) {
+            throw new ArressIsAlreadyAssociatedToUserException($addressUuid);
+        }
+
+        if (mb_strlen($streetName) === 0) {
+            throw new AddressStreetNameIsInvalidException($streetName);
+        }
+
+        if ($streetNumber <= 0) {
+            throw new AddressStreetNumberIsInvalidException($streetNumber);
+        }
+
+        $this->recordThat(
+            new AddressWasAdded(
+                $userUuid,
+                $addressUuid,
+                $streetName,
+                $streetNumber
+            )
+        );
+    }
+
+    public function removeAddress(
+        UserUuid $userUuid,
+        AddressUuid $addressUuid
+    ): void {
+        if (!array_key_exists($addressUuid->toString(), $this->addresses)) {
+            throw new CannotRemoveNonExistentAddressException($addressUuid);
         }
 
         $this->recordThat(
             new AddressWasRemoved(
-                $event->getUserUuid(),
-                $event->getAddressUuid()
+                $userUuid,
+                $addressUuid
             )
         );
     }

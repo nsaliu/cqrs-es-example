@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\User\Application\Command;
 
-use App\User\Domain\Event\UpdateUserName;
 use App\User\Domain\Repository\UserRepositoryInterface;
 use Symfony\Component\Messenger\Handler\MessageSubscriberInterface;
 
@@ -21,7 +20,9 @@ final class UpdateUserNameCommandHandler implements MessageSubscriberInterface
     {
         $user = $this->userEventRepository->get($command->getUuid());
 
-        $user->updateName(new UpdateUserName($command->getName())
+        $user->updateName(
+            $command->getUuid(),
+            $command->getName()
         );
 
         $this->userEventRepository->save($user);
