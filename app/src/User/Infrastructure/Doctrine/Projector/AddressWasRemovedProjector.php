@@ -12,7 +12,7 @@ final class AddressWasRemovedProjector implements Consumer
 {
     use ConsumableTrait;
 
-    public function applyAddressWasRemoved(AddressWasRemoved $event)
+    public function applyAddressWasRemoved(AddressWasRemoved $event): void
     {
         dump('in AddressWasRemoved projector...');
     }

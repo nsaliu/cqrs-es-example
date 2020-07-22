@@ -7,6 +7,7 @@ namespace App\User\Application\Console;
 use App\Shared\Infrastructure\Bus\QueryBusInterface;
 use App\User\Application\Query\GetUserByUserUuidQuery;
 use App\User\Domain\UserUuid;
+use InvalidArgumentException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -39,7 +40,13 @@ final class GetUserByUuidConsoleCommand extends Command
         InputInterface $input,
         OutputInterface $output
     ): int {
-        $userUuid = UserUuid::fromString($input->getArgument('uuid'));
+        $uuid = $input->getArgument('uuid');
+
+        if (!is_string($uuid)) {
+            throw new InvalidArgumentException('User uuid must be a string');
+        }
+
+        $userUuid = UserUuid::fromString($uuid);
 
         $user = $this->queryBus->dispatch(
             new GetUserByUserUuidQuery($userUuid)

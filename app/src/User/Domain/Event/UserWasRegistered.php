@@ -40,6 +40,9 @@ final class UserWasRegistered implements SerializablePayload
         return $this->surname;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function toPayload(): array
     {
         return [
@@ -49,6 +52,9 @@ final class UserWasRegistered implements SerializablePayload
         ];
     }
 
+    /**
+     * @param array<string, mixed> $payload
+     */
     public static function fromPayload(array $payload): UserWasRegistered
     {
         return new UserWasRegistered(

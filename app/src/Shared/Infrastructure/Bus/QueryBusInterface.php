@@ -6,8 +6,5 @@ namespace App\Shared\Infrastructure\Bus;
 
 interface QueryBusInterface
 {
-    /**
-     * @return mixed
-     */
     public function dispatch(object $command): object;
 }

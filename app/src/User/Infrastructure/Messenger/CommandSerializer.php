@@ -22,6 +22,9 @@ final class CommandSerializer implements CommandSerializerInterface
         $this->serializer = $serializer;
     }
 
+    /**
+     * @param array<mixed> $encodedEnvelope
+     */
     public function decode(array $encodedEnvelope): Envelope
     {
         $envelop = $this->serializer->decode($encodedEnvelope);
@@ -33,7 +36,7 @@ final class CommandSerializer implements CommandSerializerInterface
             );
 
             if ($command === null) {
-                throw new MessageDecodingFailedException(sprintf('Unable to decode command of type %s', get_class($command)));
+                throw new MessageDecodingFailedException('Unable to decode command, null given');
             }
 
             return new Envelope(
@@ -45,6 +48,9 @@ final class CommandSerializer implements CommandSerializerInterface
         return $envelop;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function encode(Envelope $envelope): array
     {
         if ($envelope->getMessage() instanceof CommandInterface) {
@@ -65,6 +71,9 @@ final class CommandSerializer implements CommandSerializerInterface
         return $this->serializer->encode($envelope);
     }
 
+    /**
+     * @param array<mixed> $encodedEnvelope
+     */
     private function deserializeCommandMessage(
         Envelope $envelope,
         array $encodedEnvelope
@@ -91,7 +100,7 @@ final class CommandSerializer implements CommandSerializerInterface
     }
 
     /**
-     * @param array<string, array<int, StampInterface>> $stamps
+     * @param array<mixed|StampInterface> $stamps
      *
      * @return StampInterface[]
      */

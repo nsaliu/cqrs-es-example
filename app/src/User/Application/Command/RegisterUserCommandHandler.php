@@ -17,7 +17,7 @@ final class RegisterUserCommandHandler implements MessageSubscriberInterface
         $this->userEventRepository = $userEventRepository;
     }
 
-    public function __invoke(RegisterUserCommand $command)
+    public function __invoke(RegisterUserCommand $command): void
     {
         $user = User::create($command->getUuid());
 
@@ -30,6 +30,9 @@ final class RegisterUserCommandHandler implements MessageSubscriberInterface
         $this->userEventRepository->save($user);
     }
 
+    /**
+     * @return iterable<string>
+     */
     public static function getHandledMessages(): iterable
     {
         yield RegisterUserCommand::class;

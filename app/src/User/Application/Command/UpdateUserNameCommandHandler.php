@@ -16,7 +16,7 @@ final class UpdateUserNameCommandHandler implements MessageSubscriberInterface
         $this->userEventRepository = $userEventRepository;
     }
 
-    public function __invoke(UpdateUserNameCommand $command)
+    public function __invoke(UpdateUserNameCommand $command): void
     {
         $user = $this->userEventRepository->get($command->getUuid());
 
@@ -28,6 +28,9 @@ final class UpdateUserNameCommandHandler implements MessageSubscriberInterface
         $this->userEventRepository->save($user);
     }
 
+    /**
+     * @return iterable<string>
+     */
     public static function getHandledMessages(): iterable
     {
         yield UpdateUserNameCommand::class;

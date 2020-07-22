@@ -23,6 +23,7 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.16",
+        "phpstan/phpstan-symfony": "^0.12.7",
         "sensiolabs-de/deptrac-shim": "^0.8.1"
     },
     "config": {
@@ -64,6 +65,9 @@
         ],
         "fix": [
             "vendor/bin/php-cs-fixer fix src --allow-risky yes"
+        ],
+        "phpstan": [
+            "vendor/bin/phpstan analyze src --level=8"
         ]
     },
     "conflict": {

@@ -50,6 +50,9 @@ final class AddressWasAdded implements SerializablePayload
         return $this->streetNumber;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function toPayload(): array
     {
         return [
@@ -60,6 +63,9 @@ final class AddressWasAdded implements SerializablePayload
         ];
     }
 
+    /**
+     * @param array<string, mixed> $payload
+     */
     public static function fromPayload(array $payload): SerializablePayload
     {
         return new AddressWasAdded(

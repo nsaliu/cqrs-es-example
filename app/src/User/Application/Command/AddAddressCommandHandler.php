@@ -35,6 +35,9 @@ final class AddAddressCommandHandler implements MessageSubscriberInterface
         $this->userEventRepository->save($user);
     }
 
+    /**
+     * @return iterable<string>
+     */
     public static function getHandledMessages(): iterable
     {
         yield AddAddressCommand::class;

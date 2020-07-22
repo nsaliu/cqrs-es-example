@@ -32,6 +32,9 @@ final class AddressWasRemoved implements SerializablePayload
         return $this->addressUuid;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function toPayload(): array
     {
         return [
@@ -40,6 +43,9 @@ final class AddressWasRemoved implements SerializablePayload
         ];
     }
 
+    /**
+     * @param array<string, mixed> $payload
+     */
     public static function fromPayload(array $payload): SerializablePayload
     {
         return new AddressWasRemoved(

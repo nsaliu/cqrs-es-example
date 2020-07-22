@@ -32,6 +32,9 @@ final class RemoveAddressCommandHandler implements MessageSubscriberInterface
         $this->userRepository->save($user);
     }
 
+    /**
+     * @return iterable<string>
+     */
     public static function getHandledMessages(): iterable
     {
         yield RemoveAddressCommand::class;

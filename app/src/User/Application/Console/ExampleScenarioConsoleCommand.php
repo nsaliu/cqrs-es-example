@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\User\Application\Console;
 
+use RuntimeException;
+use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
@@ -21,7 +23,7 @@ final class ExampleScenarioConsoleCommand extends Command
         $userUuid = 'a0b32274-0dbb-47f0-bad5-3d059c3e0fd0';
 
         // register new user
-        $registerUserCommand = $this->getApplication()->find('app:user:register-new');
+        $registerUserCommand = $this->getApp()->find('app:user:register-new');
         $registerUserCommand->run(
             new ArrayInput([
                 'uuid' => $userUuid,
@@ -32,7 +34,7 @@ final class ExampleScenarioConsoleCommand extends Command
         );
 
         // update user name
-        $updateUserNameCommand = $this->getApplication()->find('app:user:update-name');
+        $updateUserNameCommand = $this->getApp()->find('app:user:update-name');
         $updateUserNameCommand->run(
             new ArrayInput([
                 'uuid' => $userUuid,
@@ -42,7 +44,7 @@ final class ExampleScenarioConsoleCommand extends Command
         );
 
         // add first address
-        $addFirstAddressCommand = $this->getApplication()->find('app:user:add-addresses');
+        $addFirstAddressCommand = $this->getApp()->find('app:user:add-addresses');
         $addFirstAddressCommand->run(
             new ArrayInput([
                 'user-uuid' => $userUuid,
@@ -53,7 +55,7 @@ final class ExampleScenarioConsoleCommand extends Command
         );
 
         // add second address
-        $addSecondAddressCommand = $this->getApplication()->find('app:user:add-addresses');
+        $addSecondAddressCommand = $this->getApp()->find('app:user:add-addresses');
         $addSecondAddressCommand->run(
             new ArrayInput([
                 'user-uuid' => $userUuid,
@@ -64,7 +66,7 @@ final class ExampleScenarioConsoleCommand extends Command
         );
 
         // retrieve user data
-        $retrieveUserDataCommand = $this->getApplication()->find('app:user:get-by-uuid');
+        $retrieveUserDataCommand = $this->getApp()->find('app:user:get-by-uuid');
         $retrieveUserDataCommand->run(
             new ArrayInput([
                 'uuid' => $userUuid,
@@ -73,5 +75,16 @@ final class ExampleScenarioConsoleCommand extends Command
         );
 
         return self::SUCCESS;
+    }
+
+    private function getApp(): Application
+    {
+        $application = $this->getApplication();
+
+        if ($application === null) {
+            throw new RuntimeException('Application is null');
+        }
+
+        return $application;
     }
 }

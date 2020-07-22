@@ -7,6 +7,7 @@ namespace App\User\Application\Console;
 use App\Shared\Infrastructure\Bus\CommandBusInterface;
 use App\User\Application\Command\AddAddressCommand;
 use App\User\Domain\UserUuid;
+use InvalidArgumentException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -28,7 +29,7 @@ final class AddAddressToUserConsoleCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->addArgument('user-uuid', InputArgument::REQUIRED, 'A valid user uuid');
 
@@ -43,11 +44,29 @@ final class AddAddressToUserConsoleCommand extends Command
         InputInterface $input,
         OutputInterface $output
     ): int {
+        $userUuid = $input->getArgument('user-uuid');
+
+        if (!is_string($userUuid)) {
+            throw new InvalidArgumentException('User uuid must be a string');
+        }
+
+        $streetName = $input->getArgument('street-name');
+
+        if (!is_string($streetName)) {
+            throw new InvalidArgumentException('Street name must be a string');
+        }
+
+        $streetNumber = $input->getArgument('street-number');
+
+        if ($streetNumber === null || is_array($streetNumber)) {
+            throw new InvalidArgumentException('Street number must be an integer');
+        }
+
         $this->commandBus->dispatch(
             new AddAddressCommand(
-                UserUuid::fromString($input->getArgument('user-uuid')),
-                $input->getArgument('street-name'),
-                (int) $input->getArgument('street-number'),
+                UserUuid::fromString($userUuid),
+                $streetName,
+                (int) $streetNumber
             )
         );
 

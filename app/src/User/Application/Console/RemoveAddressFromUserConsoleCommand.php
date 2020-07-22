@@ -8,6 +8,7 @@ use App\Shared\Infrastructure\Bus\CommandBusInterface;
 use App\User\Application\Command\RemoveAddressCommand;
 use App\User\Domain\Address\AddressUuid;
 use App\User\Domain\UserUuid;
+use InvalidArgumentException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -26,7 +27,7 @@ final class RemoveAddressFromUserConsoleCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->addArgument('user-uuid', InputArgument::REQUIRED, 'The user uuid');
 
@@ -39,10 +40,22 @@ final class RemoveAddressFromUserConsoleCommand extends Command
         InputInterface $input,
         OutputInterface $output
     ) {
+        $userUuid = $input->getArgument('user-uuid');
+
+        if (!is_string($userUuid)) {
+            throw new InvalidArgumentException('User uuid must be a string');
+        }
+
+        $addressUuid = $input->getArgument('addresses-uuid');
+
+        if (!is_string($addressUuid)) {
+            throw new InvalidArgumentException('Address uuid must be a string');
+        }
+
         $this->commandBus->dispatch(
             new RemoveAddressCommand(
-                UserUuid::fromString($input->getArgument('user-uuid')),
-                AddressUuid::fromString($input->getArgument('addresses-uuid')),
+                UserUuid::fromString($userUuid),
+                AddressUuid::fromString($addressUuid),
             )
         );
 

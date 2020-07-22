@@ -7,6 +7,7 @@ namespace App\User\Application\Console;
 use App\Shared\Infrastructure\Bus\CommandBusInterface;
 use App\User\Application\Command\RegisterUserCommand;
 use App\User\Domain\UserUuid;
+use InvalidArgumentException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -43,11 +44,29 @@ final class RegisterUserConsoleCommand extends Command
         InputInterface $input,
         OutputInterface $output
     ): int {
+        $userUuid = $input->getArgument('uuid');
+
+        if (!is_string($userUuid)) {
+            throw new InvalidArgumentException('User uuid must be a string');
+        }
+
+        $name = $input->getArgument('name');
+
+        if (!is_string($name)) {
+            throw new InvalidArgumentException('User name must be a string');
+        }
+
+        $surname = $input->getArgument('surname');
+
+        if (!is_string($surname)) {
+            throw new InvalidArgumentException('User surname must be a string');
+        }
+
         $this->commandBus->dispatch(
             new RegisterUserCommand(
-                UserUuid::fromString($input->getArgument('uuid')),
-                $input->getArgument('name'),
-                $input->getArgument('surname'),
+                UserUuid::fromString($userUuid),
+                $name,
+                $surname,
             )
         );
 

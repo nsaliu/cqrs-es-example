@@ -8,7 +8,7 @@ use Exception;
 
 final class UserUuidCannotBeCreatedException extends Exception
 {
-    public function __construct($uuid)
+    public function __construct(string $uuid)
     {
         parent::__construct(
             sprintf(

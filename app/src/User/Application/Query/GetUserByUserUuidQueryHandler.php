@@ -22,6 +22,9 @@ final class GetUserByUserUuidQueryHandler implements MessageSubscriberInterface
         return $this->userEventRepository->get($query->getUserUuid());
     }
 
+    /**
+     * @return iterable<string>
+     */
     public static function getHandledMessages(): iterable
     {
         yield GetUserByUserUuidQuery::class;
