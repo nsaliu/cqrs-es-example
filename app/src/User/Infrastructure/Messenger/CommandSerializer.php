@@ -33,9 +33,7 @@ final class CommandSerializer implements CommandSerializerInterface
             );
 
             if ($command === null) {
-                throw new MessageDecodingFailedException(
-                    sprintf('Unable to decode command of type %s', get_class($command))
-                );
+                throw new MessageDecodingFailedException(sprintf('Unable to decode command of type %s', get_class($command)));
             }
 
             return new Envelope(
@@ -94,6 +92,7 @@ final class CommandSerializer implements CommandSerializerInterface
 
     /**
      * @param array<string, array<int, StampInterface>> $stamps
+     *
      * @return StampInterface[]
      */
     private function getStamps(array $stamps): array

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\User\Infrastructure\Doctrine\Projector;
 
-use App\User\Domain\Address\Address;
-use App\User\Domain\Address\AddressUuid;
 use App\User\Domain\Event\AddressWasAdded;
 use App\User\Infrastructure\Doctrine\Repository\DoctrineUserRepository;
 use EventSauce\EventSourcing\Consumer;
@@ -26,7 +24,7 @@ final class AddressWasAddedProjector implements Consumer
     {
         $user = $this->userRepository->findByUuid($event->getUserUuid());
 
-        /**
+        /*
          * todo:
          *  - add DoctrineAddress
          *  - reference it on DoctrineUser

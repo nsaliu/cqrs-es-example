@@ -16,6 +16,11 @@ final class UserUuid implements UuidInterface
         $this->uuid = Uuid::fromString($uuid)->toString();
     }
 
+    public function __toString()
+    {
+        return (string) $this->uuid;
+    }
+
     public static function fromString(string $aggregateRootId): self
     {
         if (!Uuid::isValid($aggregateRootId)) {
@@ -38,10 +43,5 @@ final class UserUuid implements UuidInterface
     public function toString(): string
     {
         return $this->__toString();
-    }
-
-    public function __toString()
-    {
-        return (string) $this->uuid;
     }
 }

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\User\Application\Console;
 
-use App\User\Application\Command\RegisterUserCommand;
 use App\Shared\Infrastructure\Bus\CommandBusInterface;
+use App\User\Application\Command\RegisterUserCommand;
 use App\User\Domain\UserUuid;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;

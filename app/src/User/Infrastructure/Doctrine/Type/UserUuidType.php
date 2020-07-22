@@ -25,11 +25,7 @@ final class UserUuidType extends Type
         try {
             return UserUuid::fromString($value)->toString();
         } catch (Throwable $exception) {
-            throw ConversionException::conversionFailedInvalidType(
-                $value,
-                $this->getName(),
-                [UserUuid::class]
-            );
+            throw ConversionException::conversionFailedInvalidType($value, $this->getName(), [UserUuid::class]);
         }
     }
 
@@ -44,13 +40,9 @@ final class UserUuidType extends Type
         try {
             return UserUuid::fromString($value);
         } catch (Throwable $exception) {
-            throw ConversionException::conversionFailed(
-                $value,
-                $this->getName()
-            );
+            throw ConversionException::conversionFailed($value, $this->getName());
         }
     }
-
 
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {
@@ -66,5 +58,4 @@ final class UserUuidType extends Type
     {
         return self::TYPE_NAME;
     }
-
 }

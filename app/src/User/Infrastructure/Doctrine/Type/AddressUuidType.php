@@ -29,11 +29,7 @@ final class AddressUuidType extends Type
         try {
             return AddressUuid::fromString($value)->toString();
         } catch (Throwable $exception) {
-            throw ConversionException::conversionFailedInvalidType(
-                $value,
-                $this->getName(),
-                [AddressUuid::class]
-            );
+            throw ConversionException::conversionFailedInvalidType($value, $this->getName(), [AddressUuid::class]);
         }
     }
 
@@ -52,13 +48,9 @@ final class AddressUuidType extends Type
         try {
             return AddressUuid::fromString($value);
         } catch (Throwable $exception) {
-            throw ConversionException::conversionFailed(
-                $value,
-                $this->getName()
-            );
+            throw ConversionException::conversionFailed($value, $this->getName());
         }
     }
-
 
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {

@@ -9,16 +9,16 @@ use Doctrine\Migrations\AbstractMigration;
 
 final class Version20200718231136 extends AbstractMigration
 {
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql(<<<SQL
+        $this->addSql(<<<'SQL'
 DROP TABLE IF EXISTS `users`;
 SQL
 );
 
-        $this->addSql(<<<SQL
+        $this->addSql(<<<'SQL'
 CREATE TABLE `events` (
   `event_id` char(36) COLLATE utf8_unicode_ci NOT NULL COMMENT '(DC2Type:guid)',
   `event_type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -36,11 +36,11 @@ SQL
 );
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql(<<<SQL
+        $this->addSql(<<<'SQL'
 CREATE TABLE `users` (
     uuid    CHAR(36) NOT NULL COMMENT '(DC2Type:user_uuid)',
     name    VARCHAR(255) NOT NULL,
@@ -54,7 +54,7 @@ CREATE TABLE `users` (
 SQL
         );
 
-        $this->addSql(<<<SQL
+        $this->addSql(<<<'SQL'
 DROP TABLE IF EXISTS `events`;
 SQL
 );

@@ -10,9 +10,9 @@ use App\User\Domain\Event\AddressWasAdded;
 use App\User\Domain\Event\AddressWasRemoved;
 use App\User\Domain\Event\UserNameWasUpdated;
 use App\User\Domain\Event\UserWasRegistered;
-use App\User\Domain\Exception\AddressLimitReached;
 use App\User\Domain\Exception\Address\AddressStreetNameIsInvalidException;
 use App\User\Domain\Exception\Address\AddressStreetNumberIsInvalidException;
+use App\User\Domain\Exception\AddressLimitReached;
 use App\User\Domain\Exception\ArressIsAlreadyAssociatedToUserException;
 use App\User\Domain\Exception\CannotRemoveNonExistentAddressException;
 use App\User\Domain\Exception\UserNamePropertyIsTooShort;
@@ -51,8 +51,7 @@ final class User implements AggregateRoot
         UserUuid $userUuid,
         string $name,
         string $surname
-    ): void
-    {
+    ): void {
         if (mb_strlen($name) === 0) {
             throw new UserNamePropertyIsTooShort();
         }

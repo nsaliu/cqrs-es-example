@@ -8,5 +8,4 @@ use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
 
 interface CommandSerializerInterface extends SerializerInterface
 {
-
 }

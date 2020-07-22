@@ -20,7 +20,7 @@ final class DoctrineUserRepository extends ServiceEntityRepository
     {
         /** @var DoctrineUser $user */
         $user = $this->findOneBy([
-            'userUuid' => $userUuid
+            'userUuid' => $userUuid,
         ]);
 
         return $user;
