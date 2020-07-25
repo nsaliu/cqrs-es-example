@@ -20,15 +20,34 @@ final class AddressWasAddedProjector implements Consumer
         $this->userRepository = $userRepository;
     }
 
-    public function applyAddressWasAddedProjector(AddressWasAdded $event): void
+    public function applyAddressWasAdded(AddressWasAdded $event): void
     {
         $user = $this->userRepository->findByUuid($event->getUserUuid());
 
-        /*
-         * todo:
-         *  - add DoctrineAddress
-         *  - reference it on DoctrineUser
-         *  - add new Address to DoctrineUser and persist
-         */
+        if ($user->getAddress1Uuid() === null) {
+            $user->setAddress1(
+                $event->getAddressUuid(),
+                $event->getStreetName(),
+                $event->getStreetNumber()
+            );
+
+            $this->userRepository->persist($user);
+            $this->userRepository->flush();
+
+            return;
+        }
+
+        if ($user->getAddress2Uuid() === null) {
+            $user->setAddress2(
+                $event->getAddressUuid(),
+                $event->getStreetName(),
+                $event->getStreetNumber()
+            );
+
+            $this->userRepository->persist($user);
+            $this->userRepository->flush();
+
+            return;
+        }
     }
 }

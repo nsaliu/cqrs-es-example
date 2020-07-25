@@ -13,12 +13,14 @@ final class Version20200718231136 extends AbstractMigration
     {
         $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql(<<<'SQL'
+        $this->addSql(
+            <<<SQL
 DROP TABLE IF EXISTS `users`;
 SQL
-);
+        );
 
-        $this->addSql(<<<'SQL'
+        $this->addSql(
+            <<<SQL
 CREATE TABLE `events` (
   `event_id` char(36) COLLATE utf8_unicode_ci NOT NULL COMMENT '(DC2Type:guid)',
   `event_type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -33,14 +35,15 @@ CREATE TABLE `events` (
   KEY `IDX_5387574A745C37BA70670451` (`aggregate_root_id`,`aggregate_root_version`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
 SQL
-);
+        );
     }
 
     public function down(Schema $schema): void
     {
         $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql(<<<'SQL'
+        $this->addSql(
+            <<<SQL
 CREATE TABLE `users` (
     uuid    CHAR(36) NOT NULL COMMENT '(DC2Type:user_uuid)',
     name    VARCHAR(255) NOT NULL,
@@ -54,9 +57,10 @@ CREATE TABLE `users` (
 SQL
         );
 
-        $this->addSql(<<<'SQL'
+        $this->addSql(
+            <<<SQL
 DROP TABLE IF EXISTS `events`;
 SQL
-);
+        );
     }
 }

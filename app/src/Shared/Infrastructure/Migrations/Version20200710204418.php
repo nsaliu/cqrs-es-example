@@ -13,7 +13,8 @@ final class Version20200710204418 extends AbstractMigration
     {
         $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql(<<<'SQL'
+        $this->addSql(
+            <<<SQL
 CREATE TABLE `users` (
     uuid    CHAR(36) NOT NULL COMMENT '(DC2Type:user_uuid)',
     name    VARCHAR(255) NOT NULL,
@@ -25,16 +26,17 @@ CREATE TABLE `users` (
   COLLATE `utf8mb4_unicode_ci`
   ENGINE = InnoDB;
 SQL
-);
+        );
     }
 
     public function down(Schema $schema): void
     {
         $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql(<<<'SQL'
+        $this->addSql(
+            <<<SQL
 DROP TABLE IF EXISTS `users`;
 SQL
-);
+        );
     }
 }

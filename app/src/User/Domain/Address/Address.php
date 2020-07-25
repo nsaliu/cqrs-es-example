@@ -4,6 +4,20 @@ declare(strict_types=1);
 
 namespace App\User\Domain\Address;
 
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(
+ *     name="projection_users",
+ *     uniqueConstraints={
+ *         @ORM\UniqueConstraint(
+ *             name="uuid_unq",
+ *             columns={"uuid"}
+ *         )
+ *     }
+ * )
+ */
 final class Address
 {
     private AddressUuid $uuid;

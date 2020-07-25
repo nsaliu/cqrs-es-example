@@ -16,3 +16,5 @@ services:
     App\User\Application\Console\RemoveAddressFromUserConsoleCommand: ~
 
     App\User\Application\Console\ExampleScenarioConsoleCommand: ~
+
+    App\User\Application\Console\EmptyTablesConsoleCommand: ~

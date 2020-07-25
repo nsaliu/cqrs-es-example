@@ -6,6 +6,7 @@ namespace App\User\Infrastructure\Doctrine\Repository;
 
 use App\User\Domain\UserUuid;
 use App\User\Infrastructure\Doctrine\Entity\DoctrineUser;
+use App\User\Infrastructure\Doctrine\Exception\UserNotFoundByUuidException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -18,10 +19,14 @@ final class DoctrineUserRepository extends ServiceEntityRepository
 
     public function findByUuid(UserUuid $userUuid): DoctrineUser
     {
-        /** @var DoctrineUser $user */
+        /** @var DoctrineUser|null $user */
         $user = $this->findOneBy([
             'userUuid' => $userUuid,
         ]);
+
+        if ($user === null) {
+            throw new UserNotFoundByUuidException($userUuid);
+        }
 
         return $user;
     }

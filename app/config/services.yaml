@@ -6,7 +6,7 @@ imports:
 
 parameters:
     symfony:
-        container_xml_path: '%rootDir%/../../../var/cache/dev/App_KernelDevDebugContainer.xml'
+        container_xml_path: '%kernel.project_dir%/var/cache/dev/App_KernelDevDebugContainer.xml'
 
 services:
     _defaults:

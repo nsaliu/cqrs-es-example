@@ -24,7 +24,7 @@ final class UserNameWasUpdatedProjector implements Consumer
     {
         $user = $this->userRepository->findByUuid($event->getUserUuid());
 
-        $user->updateName($event->getName());
+        $user->setName($event->getName());
 
         $this->userRepository->persist($user);
         $this->userRepository->flush();

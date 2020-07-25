@@ -33,6 +33,7 @@ final class UserWasRegisteredProjector implements Consumer
             null,
             null,
             null,
+            new \DateTimeImmutable(),
             new \DateTimeImmutable()
         );
 

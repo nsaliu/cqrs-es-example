@@ -50,9 +50,9 @@ class DoctrineUser
     private ?string $address1StreetName;
 
     /**
-     * @ORM\Column(name="address_1_street_number", type="string", nullable=true)
+     * @ORM\Column(name="address_1_street_number", type="integer", nullable=true)
      */
-    private ?string $address1StreetNumber;
+    private ?int $address1StreetNumber;
 
     /**
      * @ORM\Column(name="address_2_uuid", type="address_uuid", length=36, nullable=true)
@@ -65,14 +65,19 @@ class DoctrineUser
     private ?string $address2StreetName;
 
     /**
-     * @ORM\Column(name="address_2_street_number", type="string", nullable=true)
+     * @ORM\Column(name="address_2_street_number", type="integer", nullable=true)
      */
-    private ?string $address2StreetNumber;
+    private ?int $address2StreetNumber;
 
     /**
      * @ORM\Column(type="datetime_immutable")
      */
     private DateTimeImmutable $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     */
+    private DateTimeImmutable $updatedAt;
 
     public function __construct(
         UserUuid $userUuid,
@@ -80,11 +85,12 @@ class DoctrineUser
         string $surname,
         ?AddressUuid $address1Uuid,
         ?string $address1StreetName,
-        ?string $address1StreetNumber,
+        ?int $address1StreetNumber,
         ?AddressUuid $address2Uuid,
         ?string $address2StreetName,
-        ?string $address2StreetNumber,
-        ?DateTimeImmutable $createdAt
+        ?int $address2StreetNumber,
+        ?DateTimeImmutable $createdAt,
+        DateTimeImmutable $updatedAt
     ) {
         $this->userUuid = $userUuid;
         $this->name = $name;
@@ -96,6 +102,7 @@ class DoctrineUser
         $this->address2StreetName = $address2StreetName;
         $this->address2StreetNumber = $address2StreetNumber;
         $this->createdAt = $createdAt ?? new DateTimeImmutable();
+        $this->updatedAt = $updatedAt;
     }
 
     public function getUserUuid(): UserUuid
@@ -108,7 +115,7 @@ class DoctrineUser
         return $this->name;
     }
 
-    public function updateName(string $name): void
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
@@ -128,9 +135,26 @@ class DoctrineUser
         return $this->address1StreetName;
     }
 
-    public function getAddress1StreetNumber(): ?string
+    public function getAddress1StreetNumber(): ?int
     {
         return $this->address1StreetNumber;
+    }
+
+    public function setAddress1(
+        AddressUuid $addressUuid,
+        string $streetName,
+        int $streetNumber
+    ): void {
+        $this->address1Uuid = $addressUuid;
+        $this->address1StreetName = $streetName;
+        $this->address1StreetNumber = $streetNumber;
+    }
+
+    public function removeAddress1(): void
+    {
+        $this->address1Uuid = null;
+        $this->address1StreetName = null;
+        $this->address1StreetNumber = null;
     }
 
     public function getAddress2Uuid(): ?AddressUuid
@@ -143,13 +167,35 @@ class DoctrineUser
         return $this->address2StreetName;
     }
 
-    public function getAddress2StreetNumber(): ?string
+    public function getAddress2StreetNumber(): ?int
     {
         return $this->address2StreetNumber;
+    }
+
+    public function setAddress2(
+        AddressUuid $addressUuid,
+        string $streetName,
+        int $streetNumber
+    ): void {
+        $this->address2Uuid = $addressUuid;
+        $this->address2StreetName = $streetName;
+        $this->address2StreetNumber = $streetNumber;
+    }
+
+    public function removeAddress2(): void
+    {
+        $this->address2Uuid = null;
+        $this->address2StreetName = null;
+        $this->address2StreetNumber = null;
     }
 
     public function getCreatedAt(): DateTimeImmutable
     {
         return $this->createdAt;
+    }
+
+    public function getUpdatedAt(): DateTimeImmutable
+    {
+        return $this->updatedAt;
     }
 }
