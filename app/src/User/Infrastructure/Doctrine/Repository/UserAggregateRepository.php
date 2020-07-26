@@ -9,7 +9,7 @@ use App\User\Domain\User;
 use App\User\Domain\UserUuid;
 use EventSauce\EventSourcing\AggregateRootRepository;
 
-final class UserRepository implements UserRepositoryInterface
+final class UserAggregateRepository implements UserRepositoryInterface
 {
     private AggregateRootRepository $aggregateRootRepository;
 

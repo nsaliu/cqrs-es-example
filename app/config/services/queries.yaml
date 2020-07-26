@@ -1,0 +1,18 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: false
+
+    # query bus
+    App\User\Infrastructure\Messenger\MessengerQueryBus:
+        arguments:
+            $messageBus: '@messenger.bus.query'
+
+    App\Shared\Infrastructure\Bus\QueryBusInterface:
+        alias: App\User\Infrastructure\Messenger\MessengerQueryBus
+
+    # query handler
+    App\User\Application\Query\:
+        resource: '%kernel.project_dir%/src/User/Application/Query/*Handler.php'
+        tags:
+            - { name: messenger.message_handler, bus: messenger.bus.query }

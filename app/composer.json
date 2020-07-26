@@ -63,11 +63,23 @@
         "post-update-cmd": [
             "@auto-scripts"
         ],
-        "fix": [
+        "lint-yaml": [
+            "bin/console lint:yaml src config --parse-tags"
+        ],
+        "deptrac": [
+            "vendor/bin/deptrac"
+        ],
+        "csfixer": [
             "vendor/bin/php-cs-fixer fix src --allow-risky yes"
         ],
         "phpstan": [
             "vendor/bin/phpstan analyze src --level=8"
+        ],
+        "qa": [
+            "@lint-yaml",
+            "@csfixer",
+            "@phpstan",
+            "@deptrac"
         ]
     },
     "conflict": {

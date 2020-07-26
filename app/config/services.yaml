@@ -1,56 +1,13 @@
 imports:
+    - { resource: services/commands.yaml }
+    - { resource: services/queries.yaml }
+    - { resource: services/projectors.yaml }
     - { resource: services/repositories.yaml }
     - { resource: services/console_commands.yaml }
     - { resource: services/translators.yaml }
     - { resource: services/jphooiveld_event_sauce.yaml }
+    - { resource: services/serializer.yaml }
 
 parameters:
     symfony:
         container_xml_path: '%kernel.project_dir%/var/cache/dev/App_KernelDevDebugContainer.xml'
-
-services:
-    _defaults:
-        autowire: true
-        autoconfigure: false
-
-    # command bus
-    App\User\Infrastructure\Messenger\MessengerCommandBus:
-        arguments:
-            $messageBus: '@messenger.bus.command'
-
-    App\Shared\Infrastructure\Bus\CommandBusInterface:
-        alias: App\User\Infrastructure\Messenger\MessengerCommandBus
-
-    # command handler
-    App\User\Application\Command\:
-        resource: '../src/User/Application/Command/*Handler.php'
-        tags:
-            - { name: messenger.message_handler, bus: messenger.bus.command }
-
-    # projectors
-    App\User\Infrastructure\Doctrine\Projector\:
-        resource: '../src/User/Infrastructure/Doctrine/Projector/*Projector.php'
-        tags:
-            - { name: messenger.message_handler, bus: messenger.bus.events }
-
-    # query bus
-    App\User\Infrastructure\Messenger\MessengerQueryBus:
-        arguments:
-            $messageBus: '@messenger.bus.query'
-
-    App\Shared\Infrastructure\Bus\QueryBusInterface:
-        alias: App\User\Infrastructure\Messenger\MessengerQueryBus
-
-    # query handler
-    App\User\Application\Query\:
-        resource: '../src/User/Application/Query/*Handler.php'
-        tags:
-            - { name: messenger.message_handler, bus: messenger.bus.query }
-
-    # custom serializer
-    App\User\Infrastructure\Messenger\CommandSerializer:
-        arguments:
-            $serializer: '@messenger.transport.symfony_serializer'
-
-    App\User\Infrastructure\Messenger\CommandSerializerInterface:
-        alias: App\User\Infrastructure\Messenger\CommandSerializer

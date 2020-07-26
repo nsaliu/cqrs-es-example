@@ -22,6 +22,13 @@ final class ExampleScenarioConsoleCommand extends Command
     {
         $userUuid = 'a0b32274-0dbb-47f0-bad5-3d059c3e0fd0';
 
+        // empty tables
+        $emptyTablesCommand = $this->getApp()->find('app:db:empty-tables');
+        $emptyTablesCommand->run(
+            new ArrayInput([]),
+            $output
+        );
+
         // register new user
         $registerUserCommand = $this->getApp()->find('app:user:register-new');
         $registerUserCommand->run(

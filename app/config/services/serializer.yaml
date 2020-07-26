@@ -1,0 +1,12 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: false
+
+    # custom serializer
+    App\User\Infrastructure\Messenger\CommandSerializer:
+        arguments:
+            $serializer: '@messenger.transport.symfony_serializer'
+
+    App\User\Infrastructure\Messenger\CommandSerializerInterface:
+        alias: App\User\Infrastructure\Messenger\CommandSerializer

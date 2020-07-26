@@ -1,0 +1,18 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: false
+
+    # command bus
+    App\User\Infrastructure\Messenger\MessengerCommandBus:
+        arguments:
+            $messageBus: '@messenger.bus.command'
+
+    App\Shared\Infrastructure\Bus\CommandBusInterface:
+        alias: App\User\Infrastructure\Messenger\MessengerCommandBus
+
+    # command handler
+    App\User\Application\Command\:
+        resource: '%kernel.project_dir%/src/User/Application/Command/*Handler.php'
+        tags:
+            - { name: messenger.message_handler, bus: messenger.bus.command }
