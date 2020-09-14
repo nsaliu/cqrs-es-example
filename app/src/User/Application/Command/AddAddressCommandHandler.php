@@ -6,7 +6,7 @@ namespace App\User\Application\Command;
 
 use App\User\Domain\Address\AddressUuid;
 use App\User\Domain\Repository\UserRepositoryInterface;
-use App\User\Domain\UserUuid;
+use App\User\Domain\UserId;
 use Symfony\Component\Messenger\Handler\MessageSubscriberInterface;
 
 final class AddAddressCommandHandler implements MessageSubscriberInterface
@@ -20,8 +20,8 @@ final class AddAddressCommandHandler implements MessageSubscriberInterface
 
     public function __invoke(AddAddressCommand $command): void
     {
-        /** @var UserUuid $userUuid */
-        $userUuid = $command->getUuid();
+        /** @var UserId $userUuid */
+        $userUuid = $command->getAggregateUuid();
 
         $user = $this->userEventRepository->get($userUuid);
 

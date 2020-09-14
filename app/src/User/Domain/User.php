@@ -6,10 +6,10 @@ namespace App\User\Domain;
 
 use App\User\Domain\Address\Address;
 use App\User\Domain\Address\AddressUuid;
-use App\User\Domain\Event\AddressWasAdded;
-use App\User\Domain\Event\AddressWasRemoved;
-use App\User\Domain\Event\UserNameWasUpdated;
-use App\User\Domain\Event\UserWasRegistered;
+use App\User\Domain\Event\AddressAdded;
+use App\User\Domain\Event\AddressRemoved;
+use App\User\Domain\Event\UserNameUpdated;
+use App\User\Domain\Event\UserRegistered;
 use App\User\Domain\Exception\Address\AddressStreetNameIsInvalidException;
 use App\User\Domain\Exception\Address\AddressStreetNumberIsInvalidException;
 use App\User\Domain\Exception\AddressLimitReached;
@@ -32,7 +32,7 @@ final class User implements AggregateRoot
      */
     private array $addresses = [];
 
-    public static function create(UserUuid $userUuid): self
+    public static function create(UserId $userUuid): self
     {
         return new static($userUuid);
     }
@@ -48,7 +48,7 @@ final class User implements AggregateRoot
     }
 
     public function registerUser(
-        UserUuid $userUuid,
+        UserId $userUuid,
         string $name,
         string $surname
     ): void {
@@ -61,7 +61,7 @@ final class User implements AggregateRoot
         }
 
         $this->recordThat(
-            new UserWasRegistered(
+            new UserRegistered(
                 $userUuid,
                 $name,
                 $surname
@@ -70,7 +70,7 @@ final class User implements AggregateRoot
     }
 
     public function updateName(
-        UserUuid $userUuid,
+        UserId $userUuid,
         string $name
     ): void {
         if (mb_strlen($name) === 0) {
@@ -78,7 +78,7 @@ final class User implements AggregateRoot
         }
 
         $this->recordThat(
-            new UserNameWasUpdated(
+            new UserNameUpdated(
                 $userUuid,
                 $name
             )
@@ -86,7 +86,7 @@ final class User implements AggregateRoot
     }
 
     public function addAddress(
-        UserUuid $userUuid,
+        UserId $userUuid,
         AddressUuid $addressUuid,
         string $streetName,
         int $streetNumber
@@ -108,7 +108,7 @@ final class User implements AggregateRoot
         }
 
         $this->recordThat(
-            new AddressWasAdded(
+            new AddressAdded(
                 $userUuid,
                 $addressUuid,
                 $streetName,
@@ -118,7 +118,7 @@ final class User implements AggregateRoot
     }
 
     public function removeAddress(
-        UserUuid $userUuid,
+        UserId $userUuid,
         AddressUuid $addressUuid
     ): void {
         if (!array_key_exists($addressUuid->toString(), $this->addresses)) {
@@ -126,25 +126,25 @@ final class User implements AggregateRoot
         }
 
         $this->recordThat(
-            new AddressWasRemoved(
+            new AddressRemoved(
                 $userUuid,
                 $addressUuid
             )
         );
     }
 
-    public function applyUserWasRegistered(UserWasRegistered $event): void
+    public function applyUserRegistered(UserRegistered $event): void
     {
         $this->name = $event->getName();
         $this->surname = $event->getSurname();
     }
 
-    public function applyUserNameWasUpdated(UserNameWasUpdated $event): void
+    public function applyUserNameUpdated(UserNameUpdated $event): void
     {
         $this->name = $event->getName();
     }
 
-    public function applyAddressWasAdded(AddressWasAdded $event): void
+    public function applyAddressAdded(AddressAdded $event): void
     {
         $this->addresses[$event->getAddressUuid()->toString()] = new Address(
             $event->getAddressUuid(),
@@ -153,7 +153,7 @@ final class User implements AggregateRoot
         );
     }
 
-    public function applyAddressWasRemoved(AddressWasRemoved $event): void
+    public function applyAddressRemoved(AddressRemoved $event): void
     {
         unset($this->addresses[$event->getAddressUuid()->toString()]);
     }

@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace App\User\Infrastructure\Doctrine\Projector;
 
-use App\User\Domain\Event\UserWasRegistered;
-use App\User\Infrastructure\Doctrine\Entity\DoctrineUser;
+use App\User\Domain\Event\UserNameUpdated;
 use App\User\Infrastructure\Doctrine\Repository\DoctrineUserRepository;
 use EventSauce\EventSourcing\Consumer;
 use Jphooiveld\Bundle\EventSauceBundle\ConsumableTrait;
 
-final class UserWasRegisteredProjector implements Consumer
+final class UserNameUpdatedProjector implements Consumer
 {
     use ConsumableTrait;
 
@@ -21,21 +20,11 @@ final class UserWasRegisteredProjector implements Consumer
         $this->userRepository = $userRepository;
     }
 
-    public function applyUserWasRegistered(UserWasRegistered $event): void
+    public function applyUserNameUpdated(UserNameUpdated $event): void
     {
-        $user = new DoctrineUser(
-            $event->getUserUuid(),
-            $event->getName(),
-            $event->getSurname(),
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            new \DateTimeImmutable(),
-            new \DateTimeImmutable()
-        );
+        $user = $this->userRepository->findByUuid($event->getUserUuid());
+
+        $user->setName($event->getName());
 
         $this->userRepository->persist($user);
         $this->userRepository->flush();

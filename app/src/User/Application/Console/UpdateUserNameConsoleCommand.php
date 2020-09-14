@@ -6,7 +6,7 @@ namespace App\User\Application\Console;
 
 use App\Shared\Infrastructure\Bus\CommandBusInterface;
 use App\User\Application\Command\UpdateUserNameCommand;
-use App\User\Domain\UserUuid;
+use App\User\Domain\UserId;
 use InvalidArgumentException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -54,7 +54,7 @@ final class UpdateUserNameConsoleCommand extends Command
 
         $this->commandBus->dispatch(
             new UpdateUserNameCommand(
-                UserUuid::fromString($uuid),
+                UserId::fromString($uuid),
                 $name
             )
         );

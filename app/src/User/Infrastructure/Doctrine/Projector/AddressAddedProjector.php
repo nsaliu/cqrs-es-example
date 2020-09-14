@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\User\Infrastructure\Doctrine\Projector;
 
-use App\User\Domain\Event\AddressWasAdded;
+use App\User\Domain\Event\AddressAdded;
 use App\User\Infrastructure\Doctrine\Repository\DoctrineUserRepository;
 use EventSauce\EventSourcing\Consumer;
 use Jphooiveld\Bundle\EventSauceBundle\ConsumableTrait;
 
-final class AddressWasAddedProjector implements Consumer
+final class AddressAddedProjector implements Consumer
 {
     use ConsumableTrait;
 
@@ -20,7 +20,7 @@ final class AddressWasAddedProjector implements Consumer
         $this->userRepository = $userRepository;
     }
 
-    public function applyAddressWasAdded(AddressWasAdded $event): void
+    public function applyAddressAdded(AddressAdded $event): void
     {
         $user = $this->userRepository->findByUuid($event->getUserUuid());
 

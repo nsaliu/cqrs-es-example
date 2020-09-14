@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\User\Application\Command;
 
-use App\User\Domain\UserUuid;
+use App\User\Domain\UserId;
 
 final class RegisterUserCommand implements CommandInterface
 {
-    private UserUuid $uuid;
+    private UserId $uuid;
 
     private string $name;
 
     private string $surname;
 
     public function __construct(
-        UserUuid $uuid,
+        UserId $uuid,
         string $name,
         string $surname
     ) {
@@ -24,7 +24,7 @@ final class RegisterUserCommand implements CommandInterface
         $this->surname = $surname;
     }
 
-    public function getUuid(): UserUuid
+    public function getAggregateUuid(): UserId
     {
         return $this->uuid;
     }

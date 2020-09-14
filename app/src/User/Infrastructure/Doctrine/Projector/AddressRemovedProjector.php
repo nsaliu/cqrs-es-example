@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\User\Infrastructure\Doctrine\Projector;
 
-use App\User\Domain\Event\AddressWasRemoved;
+use App\User\Domain\Event\AddressRemoved;
 use App\User\Infrastructure\Doctrine\Repository\DoctrineUserRepository;
 use EventSauce\EventSourcing\Consumer;
 use Jphooiveld\Bundle\EventSauceBundle\ConsumableTrait;
 
-final class AddressWasRemovedProjector implements Consumer
+final class AddressRemovedProjector implements Consumer
 {
     use ConsumableTrait;
 
@@ -20,7 +20,7 @@ final class AddressWasRemovedProjector implements Consumer
         $this->userRepository = $userRepository;
     }
 
-    public function applyAddressWasRemoved(AddressWasRemoved $event): void
+    public function applyAddressRemoved(AddressRemoved $event): void
     {
         $user = $this->userRepository->findByUuid($event->getUserUuid());
 

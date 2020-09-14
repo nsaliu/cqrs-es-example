@@ -19,10 +19,10 @@ final class RegisterUserCommandHandler implements MessageSubscriberInterface
 
     public function __invoke(RegisterUserCommand $command): void
     {
-        $user = User::create($command->getUuid());
+        $user = User::create($command->getAggregateUuid());
 
         $user->registerUser(
-            $command->getUuid(),
+            $command->getAggregateUuid(),
             $command->getName(),
             $command->getSurname()
         );

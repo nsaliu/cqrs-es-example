@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\User\Infrastructure\Doctrine\Type;
 
-use App\User\Domain\UserUuid;
+use App\User\Domain\UserId;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
@@ -18,27 +18,27 @@ final class UserUuidType extends Type
         $value,
         AbstractPlatform $platform
     ): string {
-        if ($value instanceof UserUuid) {
+        if ($value instanceof UserId) {
             return $value->toString();
         }
 
         try {
-            return UserUuid::fromString($value)->toString();
+            return UserId::fromString($value)->toString();
         } catch (Throwable $exception) {
-            throw ConversionException::conversionFailedInvalidType($value, $this->getName(), [UserUuid::class]);
+            throw ConversionException::conversionFailedInvalidType($value, $this->getName(), [UserId::class]);
         }
     }
 
     public function convertToPHPValue(
         $value,
         AbstractPlatform $platform
-    ): UserUuid {
-        if ($value instanceof UserUuid) {
+    ): UserId {
+        if ($value instanceof UserId) {
             return $value;
         }
 
         try {
-            return UserUuid::fromString($value);
+            return UserId::fromString($value);
         } catch (Throwable $exception) {
             throw ConversionException::conversionFailed($value, $this->getName());
         }

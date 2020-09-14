@@ -7,7 +7,7 @@ namespace App\User\Infrastructure\Messenger;
 use App\User\Application\Command\CommandInterface;
 use App\User\Application\Command\RegisterUserCommand;
 use App\User\Application\Command\UpdateUserNameCommand;
-use App\User\Domain\UserUuid;
+use App\User\Domain\UserId;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Exception\MessageDecodingFailedException;
 use Symfony\Component\Messenger\Stamp\StampInterface;
@@ -61,7 +61,7 @@ final class CommandSerializer implements CommandSerializerInterface
 
             $messageBody = json_decode($encodedMessage['body'], true);
 
-            $messageBody['uuid'] = $originalMessage->getUuid()->toString();
+            $messageBody['uuid'] = $originalMessage->getAggregateUuid()->toString();
 
             $encodedMessage['body'] = json_encode($messageBody);
 
@@ -83,7 +83,7 @@ final class CommandSerializer implements CommandSerializerInterface
 
         if ($message instanceof RegisterUserCommand) {
             return new RegisterUserCommand(
-                UserUuid::fromString($body['uuid']),
+                UserId::fromString($body['uuid']),
                 $message->getName(),
                 $message->getSurname()
             );
@@ -91,7 +91,7 @@ final class CommandSerializer implements CommandSerializerInterface
 
         if ($message instanceof UpdateUserNameCommand) {
             return new UpdateUserNameCommand(
-                UserUuid::fromString($body['uuid']),
+                UserId::fromString($body['uuid']),
                 $message->getName()
             );
         }

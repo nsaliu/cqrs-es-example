@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\User\Domain\Event;
 
 use App\User\Domain\Address\AddressUuid;
-use App\User\Domain\UserUuid;
+use App\User\Domain\UserId;
 use EventSauce\EventSourcing\Serialization\SerializablePayload;
 
-final class AddressWasAdded implements SerializablePayload
+final class AddressAdded implements SerializablePayload
 {
-    private UserUuid $userUuid;
+    private UserId $userUuid;
 
     private AddressUuid $addressUuid;
 
@@ -19,7 +19,7 @@ final class AddressWasAdded implements SerializablePayload
     private int $streetNumber;
 
     public function __construct(
-        UserUuid $userUuid,
+        UserId $userUuid,
         AddressUuid $addressUuid,
         string $streetName,
         int $streetNumber
@@ -30,7 +30,7 @@ final class AddressWasAdded implements SerializablePayload
         $this->userUuid = $userUuid;
     }
 
-    public function getUserUuid(): UserUuid
+    public function getUserUuid(): UserId
     {
         return $this->userUuid;
     }
@@ -68,8 +68,8 @@ final class AddressWasAdded implements SerializablePayload
      */
     public static function fromPayload(array $payload): SerializablePayload
     {
-        return new AddressWasAdded(
-            UserUuid::fromString((string) $payload['user_uuid']),
+        return new AddressAdded(
+            UserId::fromString((string) $payload['user_uuid']),
             AddressUuid::fromString((string) $payload['address_uuid']),
             (string) $payload['street_name'],
             (int) $payload['street_number']
