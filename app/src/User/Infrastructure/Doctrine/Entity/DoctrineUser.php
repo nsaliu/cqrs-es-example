@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\User\Infrastructure\Doctrine\Entity;
 
 use App\User\Domain\Address\AddressUuid;
-use App\User\Domain\UserUuid;
+use App\User\Domain\UserId;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -27,7 +27,7 @@ class DoctrineUser
      * @ORM\Id()
      * @ORM\Column(name="uuid", type="user_uuid", length=36)
      */
-    private UserUuid $userUuid;
+    private UserId $userUuid;
 
     /**
      * @ORM\Column(type="string", nullable=false)
@@ -80,7 +80,7 @@ class DoctrineUser
     private DateTimeImmutable $updatedAt;
 
     public function __construct(
-        UserUuid $userUuid,
+        UserId $userUuid,
         string $name,
         string $surname,
         ?AddressUuid $address1Uuid,
@@ -105,7 +105,7 @@ class DoctrineUser
         $this->updatedAt = $updatedAt;
     }
 
-    public function getUserUuid(): UserUuid
+    public function getUserUuid(): UserId
     {
         return $this->userUuid;
     }

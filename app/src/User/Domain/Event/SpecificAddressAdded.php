@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\User\Domain\Event;
 
 use App\User\Domain\Address\AddressUuid;
-use App\User\Domain\UserUuid;
+use App\User\Domain\UserId;
 use EventSauce\EventSourcing\Serialization\SerializablePayload;
 
-final class AddressWasAdded implements SerializablePayload
+final class SpecificAddressAdded implements SerializablePayload
 {
-    private UserUuid $userUuid;
+    private UserId $userUuid;
 
     private AddressUuid $addressUuid;
 
@@ -18,19 +18,27 @@ final class AddressWasAdded implements SerializablePayload
 
     private int $streetNumber;
 
+    private string $userName;
+
+    private string $userSurname;
+
     public function __construct(
-        UserUuid $userUuid,
+        UserId $userUuid,
         AddressUuid $addressUuid,
         string $streetName,
-        int $streetNumber
+        int $streetNumber,
+        string $userName,
+        string $userSurname
     ) {
         $this->streetName = $streetName;
         $this->streetNumber = $streetNumber;
         $this->addressUuid = $addressUuid;
         $this->userUuid = $userUuid;
+        $this->userName = $userName;
+        $this->userSurname = $userSurname;
     }
 
-    public function getUserUuid(): UserUuid
+    public function getUserUuid(): UserId
     {
         return $this->userUuid;
     }
@@ -50,6 +58,16 @@ final class AddressWasAdded implements SerializablePayload
         return $this->streetNumber;
     }
 
+    public function getUserName(): string
+    {
+        return $this->userName;
+    }
+
+    public function getUserSurname(): string
+    {
+        return $this->userSurname;
+    }
+
     /**
      * @return array<string, mixed>
      */
@@ -60,6 +78,8 @@ final class AddressWasAdded implements SerializablePayload
             'address_uuid' => $this->addressUuid->toString(),
             'street_name' => $this->streetName,
             'street_number' => $this->streetNumber,
+            'user_name' => $this->userName,
+            'user_surname' => $this->userSurname,
         ];
     }
 
@@ -68,11 +88,13 @@ final class AddressWasAdded implements SerializablePayload
      */
     public static function fromPayload(array $payload): SerializablePayload
     {
-        return new AddressWasAdded(
-            UserUuid::fromString((string) $payload['user_uuid']),
+        return new SpecificAddressAdded(
+            UserId::fromString((string) $payload['user_uuid']),
             AddressUuid::fromString((string) $payload['address_uuid']),
             (string) $payload['street_name'],
-            (int) $payload['street_number']
+            (int) $payload['street_number'],
+            (string) $payload['user_name'],
+            (string) $payload['user_surname'],
         );
     }
 }

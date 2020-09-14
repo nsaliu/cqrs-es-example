@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\User\Infrastructure\Doctrine\Exception;
 
-use App\User\Domain\UserUuid;
+use App\User\Domain\UserId;
 use Exception;
 
 final class UserNotFoundByUuidException extends Exception
 {
-    public function __construct(UserUuid $userUuid)
+    public function __construct(UserId $userUuid)
     {
         parent::__construct(
             sprintf(

@@ -8,5 +8,5 @@ use App\User\Domain\UuidInterface;
 
 interface CommandInterface
 {
-    public function getUuid(): UuidInterface;
+    public function getAggregateUuid(): UuidInterface;
 }

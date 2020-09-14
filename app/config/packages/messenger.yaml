@@ -14,8 +14,9 @@ framework:
                         cqrs_es_example_queue: ~
                 serializer: App\User\Infrastructure\Messenger\CommandSerializerInterface
 
-#        routing:
-#            App\User\Application\Command\CommandInterface: cqrs_es_example
+        # enable for send messages to queue
+        #routing:
+        #    App\User\Application\Command\CommandInterface: cqrs_es_example
 
         buses:
             messenger.bus.events: ~

@@ -2,6 +2,7 @@ imports:
     - { resource: services/commands.yaml }
     - { resource: services/queries.yaml }
     - { resource: services/projectors.yaml }
+    - { resource: services/domain_services.yaml }
     - { resource: services/repositories.yaml }
     - { resource: services/console_commands.yaml }
     - { resource: services/translators.yaml }

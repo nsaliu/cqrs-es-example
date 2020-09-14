@@ -4,24 +4,28 @@ declare(strict_types=1);
 
 namespace App\User\Domain\Event;
 
-use App\User\Domain\UserUuid;
+use App\User\Domain\UserId;
 use EventSauce\EventSourcing\Serialization\SerializablePayload;
 
-final class UserNameWasUpdated implements SerializablePayload
+final class UserRegistered implements SerializablePayload
 {
-    private UserUuid $userUuid;
+    private UserId $userUuid;
 
     private string $name;
 
+    private string $surname;
+
     public function __construct(
-        UserUuid $userUuid,
-        string $name
+        UserId $userUuid,
+        string $name,
+        string $surname
     ) {
         $this->userUuid = $userUuid;
         $this->name = $name;
+        $this->surname = $surname;
     }
 
-    public function getUserUuid(): UserUuid
+    public function getUserUuid(): UserId
     {
         return $this->userUuid;
     }
@@ -29,6 +33,11 @@ final class UserNameWasUpdated implements SerializablePayload
     public function getName(): string
     {
         return $this->name;
+    }
+
+    public function getSurname(): string
+    {
+        return $this->surname;
     }
 
     /**
@@ -39,17 +48,19 @@ final class UserNameWasUpdated implements SerializablePayload
         return [
             'user_uuid' => $this->userUuid->toString(),
             'name' => $this->name,
+            'surname' => $this->surname,
         ];
     }
 
     /**
      * @param array<string, mixed> $payload
      */
-    public static function fromPayload(array $payload): UserNameWasUpdated
+    public static function fromPayload(array $payload): UserRegistered
     {
-        return new UserNameWasUpdated(
-            UserUuid::fromString((string) $payload['user_uuid']),
-            (string) $payload['name']
+        return new UserRegistered(
+            UserId::fromString((string) $payload['user_uuid']),
+            (string) $payload['name'],
+            (string) $payload['surname']
         );
     }
 }

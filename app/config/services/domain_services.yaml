@@ -1,0 +1,8 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: false
+
+    App\User\Domain\Service\AddressDomainService:
+        arguments:
+            $addressToWatch: '%env(string:ADDRESS_TO_WATCH)%'
