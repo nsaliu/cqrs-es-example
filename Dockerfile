@@ -1,4 +1,4 @@
-FROM php:7.4.6-fpm-alpine
+FROM php:7.4.13-fpm-alpine
 
 ENV PS1="\u@\h:\w\\$ "
 ENV TIMEZONE Europe/Rome
@@ -15,8 +15,7 @@ RUN docker-php-ext-install opcache pdo_mysql mysqli
 RUN pecl install amqp-1.10.0
 RUN docker-php-ext-enable amqp
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
-	composer global require hirak/prestissimo
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 RUN rm -rf /var/cache/apk/*
 
