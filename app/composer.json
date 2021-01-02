@@ -75,7 +75,7 @@
             "vendor/bin/deptrac"
         ],
         "csfixer": [
-            "vendor/bin/php-cs-fixer fix src --allow-risky yes"
+            "vendor/bin/php-cs-fixer fix --config=.php_cs.dist --allow-risky yes"
         ],
         "phpstan": [
             "vendor/bin/phpstan analyze src --level=8"
