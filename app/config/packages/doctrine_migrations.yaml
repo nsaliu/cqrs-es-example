@@ -1,3 +1,3 @@
 doctrine_migrations:
-    dir_name: '%kernel.project_dir%/src/Shared/Infrastructure/Migrations'
-    namespace: App\Shared\Infrastructure\Migrations
+    migrations_paths:
+        App\Shared\Infrastructure\Migrations: '%kernel.project_dir%/src/Shared/Infrastructure/Migrations'
