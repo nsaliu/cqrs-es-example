@@ -6,7 +6,7 @@ namespace App\User\Infrastructure\Doctrine\Repository;
 
 use App\User\Domain\Repository\UserRepositoryInterface;
 use App\User\Domain\User;
-use App\User\Domain\UserId;
+use App\User\Domain\UserUuid;
 use EventSauce\EventSourcing\AggregateRootRepository;
 
 final class UserAggregateRepository implements UserRepositoryInterface
@@ -24,10 +24,10 @@ final class UserAggregateRepository implements UserRepositoryInterface
         $this->aggregateRootRepository->persist($user);
     }
 
-    public function get(UserId $userUuid): User
+    public function get(UserUuid $userUuidUuid): User
     {
         /** @var User $user */
-        $user = $this->aggregateRootRepository->retrieve($userUuid);
+        $user = $this->aggregateRootRepository->retrieve($userUuidUuid);
 
         return $user;
     }

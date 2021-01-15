@@ -8,7 +8,7 @@ use App\User\Application\Command\AddAddressCommand;
 use App\User\Application\Command\CommandInterface;
 use App\User\Application\Command\RegisterUserCommand;
 use App\User\Application\Command\UpdateUserNameCommand;
-use App\User\Domain\UserId;
+use App\User\Domain\UserUuid;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Exception\MessageDecodingFailedException;
 use Symfony\Component\Messenger\Stamp\StampInterface;
@@ -84,7 +84,7 @@ final class CommandSerializer implements CommandSerializerInterface
 
         if ($message instanceof RegisterUserCommand) {
             return new RegisterUserCommand(
-                UserId::fromString($body['uuid']),
+                UserUuid::fromString($body['uuid']),
                 $message->getName(),
                 $message->getSurname()
             );
@@ -92,14 +92,14 @@ final class CommandSerializer implements CommandSerializerInterface
 
         if ($message instanceof UpdateUserNameCommand) {
             return new UpdateUserNameCommand(
-                UserId::fromString($body['uuid']),
+                UserUuid::fromString($body['uuid']),
                 $message->getName()
             );
         }
 
         if ($message instanceof AddAddressCommand) {
             return new AddAddressCommand(
-                UserId::fromString($body['uuid']),
+                UserUuid::fromString($body['uuid']),
                 $message->getStreetName(),
                 $message->getStreetNumber()
             );

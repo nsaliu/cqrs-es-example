@@ -6,7 +6,7 @@ namespace App\User\Application\Console;
 
 use App\Shared\Infrastructure\Bus\CommandBusInterface;
 use App\User\Application\Command\UpdateUserNameCommand;
-use App\User\Domain\UserId;
+use App\User\Domain\UserUuid;
 use InvalidArgumentException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -31,7 +31,7 @@ final class UpdateUserNameConsoleCommand extends Command
 
     protected function configure(): void
     {
-        $this->addArgument('uuid', InputArgument::REQUIRED, 'A valid user uuid');
+        $this->addArgument('user-uuid', InputArgument::REQUIRED, 'A valid user uuid');
 
         $this->addArgument('name', InputArgument::REQUIRED, 'The new user name');
 
@@ -40,9 +40,9 @@ final class UpdateUserNameConsoleCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $uuid = $input->getArgument('uuid');
+        $userUuid = $input->getArgument('user-uuid');
 
-        if (!is_string($uuid)) {
+        if (!is_string($userUuid)) {
             throw new InvalidArgumentException('Uuid must be a string');
         }
 
@@ -54,7 +54,7 @@ final class UpdateUserNameConsoleCommand extends Command
 
         $this->commandBus->dispatch(
             new UpdateUserNameCommand(
-                UserId::fromString($uuid),
+                UserUuid::fromString($userUuid),
                 $name
             )
         );

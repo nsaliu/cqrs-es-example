@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace App\User\Application\Query;
 
-use App\User\Domain\UserId;
+use App\User\Domain\UserUuid;
 
 final class GetUserByUserUuidQuery
 {
-    private UserId $userUuid;
+    private UserUuid $userUuid;
 
     public function __construct(
-        UserId $userUuid
+        UserUuid $userUuid
     ) {
         $this->userUuid = $userUuid;
     }
 
-    public function getUserUuid(): UserId
+    public function getUserUuid(): UserUuid
     {
         return $this->userUuid;
     }

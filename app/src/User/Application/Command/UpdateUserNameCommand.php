@@ -4,25 +4,25 @@ declare(strict_types=1);
 
 namespace App\User\Application\Command;
 
-use App\User\Domain\UserId;
+use App\User\Domain\UserUuid;
 
 final class UpdateUserNameCommand implements CommandInterface
 {
-    private UserId $uuid;
+    private UserUuid $userUuid;
 
     private string $name;
 
     public function __construct(
-        UserId $uuid,
+        UserUuid $userUuid,
         string $name
     ) {
-        $this->uuid = $uuid;
+        $this->userUuid = $userUuid;
         $this->name = $name;
     }
 
-    public function getAggregateUuid(): UserId
+    public function getAggregateUuid(): UserUuid
     {
-        return $this->uuid;
+        return $this->userUuid;
     }
 
     public function getName(): string

@@ -33,7 +33,7 @@ final class ExampleScenarioConsoleCommand extends Command
         $registerUserCommand = $this->getApp()->find('app:user:register-new');
         $registerUserCommand->run(
             new ArrayInput([
-                'uuid' => $userUuid,
+                'user-uuid' => $userUuid,
                 'name' => 'Nicola',
                 'surname' => 'Saliu',
             ]),
@@ -44,7 +44,7 @@ final class ExampleScenarioConsoleCommand extends Command
         $updateUserNameCommand = $this->getApp()->find('app:user:update-name');
         $updateUserNameCommand->run(
             new ArrayInput([
-                'uuid' => $userUuid,
+                'user-uuid' => $userUuid,
                 'name' => 'Nico',
             ]),
             $output
@@ -76,7 +76,7 @@ final class ExampleScenarioConsoleCommand extends Command
         $retrieveUserDataCommand = $this->getApp()->find('app:user:get-by-uuid');
         $retrieveUserDataCommand->run(
             new ArrayInput([
-                'uuid' => $userUuid,
+                'user-uuid' => $userUuid,
             ]),
             $output
         );

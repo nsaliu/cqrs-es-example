@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace App\User\Domain\Event;
 
-use App\User\Domain\UserId;
+use App\User\Domain\UserUuid;
 use EventSauce\EventSourcing\Serialization\SerializablePayload;
 
 final class UserRegistered implements SerializablePayload
 {
-    private UserId $userUuid;
+    private UserUuid $userUuid;
 
     private string $name;
 
     private string $surname;
 
     public function __construct(
-        UserId $userUuid,
+        UserUuid $userUuid,
         string $name,
         string $surname
     ) {
@@ -25,7 +25,7 @@ final class UserRegistered implements SerializablePayload
         $this->surname = $surname;
     }
 
-    public function getUserUuid(): UserId
+    public function getUserUuid(): UserUuid
     {
         return $this->userUuid;
     }
@@ -58,7 +58,7 @@ final class UserRegistered implements SerializablePayload
     public static function fromPayload(array $payload): UserRegistered
     {
         return new UserRegistered(
-            UserId::fromString((string) $payload['user_uuid']),
+            UserUuid::fromString((string) $payload['user_uuid']),
             (string) $payload['name'],
             (string) $payload['surname']
         );

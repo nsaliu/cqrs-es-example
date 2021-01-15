@@ -7,7 +7,7 @@ namespace App\User\Domain;
 use App\User\Domain\Exception\UserUuidCannotBeCreatedException;
 use Ramsey\Uuid\Uuid;
 
-final class UserId implements UuidInterface
+final class UserUuid implements UuidInterface
 {
     private string $uuid;
 

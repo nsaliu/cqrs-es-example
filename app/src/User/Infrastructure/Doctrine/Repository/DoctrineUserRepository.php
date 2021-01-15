@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\User\Infrastructure\Doctrine\Repository;
 
-use App\User\Domain\UserId;
+use App\User\Domain\UserUuid;
 use App\User\Infrastructure\Doctrine\Entity\DoctrineUser;
 use App\User\Infrastructure\Doctrine\Exception\UserNotFoundByUuidException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -17,7 +17,7 @@ final class DoctrineUserRepository extends ServiceEntityRepository
         parent::__construct($registry, DoctrineUser::class);
     }
 
-    public function findByUuid(UserId $userUuid): DoctrineUser
+    public function findByUuid(UserUuid $userUuid): DoctrineUser
     {
         /** @var DoctrineUser|null $user */
         $user = $this->findOneBy([

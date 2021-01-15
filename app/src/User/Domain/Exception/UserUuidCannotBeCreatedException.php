@@ -8,12 +8,12 @@ use Exception;
 
 final class UserUuidCannotBeCreatedException extends Exception
 {
-    public function __construct(string $uuid)
+    public function __construct(string $userUuid)
     {
         parent::__construct(
             sprintf(
                 'User uuid can not be created due to invalid UUID string representation: %s',
-                $uuid
+                $userUuid
             ),
             0,
             null

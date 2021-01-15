@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\User\Application\Command;
 
 use App\User\Domain\Address\AddressUuid;
-use App\User\Domain\UserId;
+use App\User\Domain\UserUuid;
 
 final class ChangeUserAddressCommand implements CommandInterface
 {
-    private UserId $userId;
+    private UserUuid $userUuid;
 
     private AddressUuid $oldAddressUuid;
 
@@ -24,7 +24,7 @@ final class ChangeUserAddressCommand implements CommandInterface
     private int $newStreetNumber;
 
     public function __construct(
-        UserId $userId,
+        UserUuid $userUuid,
         AddressUuid $oldAddressUuid,
         string $oldStreetName,
         int $oldStreetNumber,
@@ -32,7 +32,7 @@ final class ChangeUserAddressCommand implements CommandInterface
         string $newStreetName,
         int $newStreetNumber
     ) {
-        $this->userId = $userId;
+        $this->userUuid = $userUuid;
         $this->oldAddressUuid = $oldAddressUuid;
         $this->oldStreetName = $oldStreetName;
         $this->oldStreetNumber = $oldStreetNumber;
@@ -41,9 +41,9 @@ final class ChangeUserAddressCommand implements CommandInterface
         $this->newStreetNumber = $newStreetNumber;
     }
 
-    public function getAggregateUuid(): UserId
+    public function getAggregateUuid(): UserUuid
     {
-        return $this->userId;
+        return $this->userUuid;
     }
 
     public function getOldAddressUuid(): AddressUuid

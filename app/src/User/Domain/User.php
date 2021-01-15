@@ -36,7 +36,7 @@ final class User implements AggregateRoot
      */
     private array $addresses = [];
 
-    public static function create(UserId $userUuid): self
+    public static function create(UserUuid $userUuid): self
     {
         return new static($userUuid);
     }
@@ -52,7 +52,7 @@ final class User implements AggregateRoot
     }
 
     public function registerUser(
-        UserId $userUuid,
+        UserUuid $userUuid,
         string $name,
         string $surname
     ): void {
@@ -74,7 +74,7 @@ final class User implements AggregateRoot
     }
 
     public function updateName(
-        UserId $userUuid,
+        UserUuid $userUuid,
         string $name
     ): void {
         if (mb_strlen($name) === 0) {
@@ -90,7 +90,7 @@ final class User implements AggregateRoot
     }
 
     public function addAddress(
-        UserId $userUuid,
+        UserUuid $userUuid,
         AddressUuid $addressUuid,
         string $streetName,
         int $streetNumber,
@@ -141,7 +141,7 @@ final class User implements AggregateRoot
     }
 
     public function removeAddress(
-        UserId $userUuid,
+        UserUuid $userUuid,
         AddressUuid $addressUuid
     ): void {
         if (!array_key_exists($addressUuid->toString(), $this->addresses)) {
@@ -157,7 +157,7 @@ final class User implements AggregateRoot
     }
 
     public function changeAddress(
-        UserId $userId,
+        UserUuid $userId,
         AddressUuid $oldAddressUuid,
         string $oldStreetName,
         int $oldStreetNumber,

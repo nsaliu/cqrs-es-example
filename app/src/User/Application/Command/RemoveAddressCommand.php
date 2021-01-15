@@ -5,17 +5,17 @@ declare(strict_types=1);
 namespace App\User\Application\Command;
 
 use App\User\Domain\Address\AddressUuid;
-use App\User\Domain\UserId;
+use App\User\Domain\UserUuid;
 use App\User\Domain\UuidInterface;
 
 final class RemoveAddressCommand implements CommandInterface
 {
-    private UserId $userUuid;
+    private UserUuid $userUuid;
 
     private AddressUuid $addressUuid;
 
     public function __construct(
-        UserId $userUuid,
+        UserUuid $userUuid,
         AddressUuid $addressUuid
     ) {
         $this->userUuid = $userUuid;

@@ -9,12 +9,12 @@ use Exception;
 
 final class ArressIsAlreadyAssociatedToUserException extends Exception
 {
-    public function __construct(AddressUuid $addressUuid)
+    public function __construct(AddressUuid $addressUserUuid)
     {
         parent::__construct(
             sprintf(
                 'Given address uuid %s is already associated to user',
-                $addressUuid->toString()
+                $addressUserUuid->toString()
             ),
             0,
             null

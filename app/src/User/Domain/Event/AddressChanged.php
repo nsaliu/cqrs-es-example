@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\User\Domain\Event;
 
 use App\User\Domain\Address\AddressUuid;
-use App\User\Domain\UserId;
+use App\User\Domain\UserUuid;
 use EventSauce\EventSourcing\Serialization\SerializablePayload;
 
 final class AddressChanged implements SerializablePayload
 {
-    private UserId $userId;
+    private UserUuid $userUuid;
 
     private AddressUuid $oldAddressUuid;
 
@@ -25,7 +25,7 @@ final class AddressChanged implements SerializablePayload
     private int $newStreetNumber;
 
     public function __construct(
-        UserId $userId,
+        UserUuid $userUuid,
         AddressUuid $oldAddressUuid,
         string $oldStreetName,
         int $oldStreetNumber,
@@ -33,7 +33,7 @@ final class AddressChanged implements SerializablePayload
         string $newStreetNAme,
         int $newStreetNumber
     ) {
-        $this->userId = $userId;
+        $this->userUuid = $userUuid;
         $this->oldAddressUuid = $oldAddressUuid;
         $this->oldStreetName = $oldStreetName;
         $this->oldStreetNumber = $oldStreetNumber;
@@ -42,9 +42,9 @@ final class AddressChanged implements SerializablePayload
         $this->newStreetNumber = $newStreetNumber;
     }
 
-    public function getUserId(): UserId
+    public function getUserUuid(): UserUuid
     {
-        return $this->userId;
+        return $this->userUuid;
     }
 
     public function getOldAddressUuid(): AddressUuid
@@ -83,7 +83,7 @@ final class AddressChanged implements SerializablePayload
     public function toPayload(): array
     {
         return [
-            'user_uuid' => $this->userId->toString(),
+            'user_uuid' => $this->userUuid->toString(),
             'old_address_uuid' => $this->oldAddressUuid->toString(),
             'old_street_name' => $this->oldStreetName,
             'old_street_number' => $this->oldStreetNumber,
@@ -99,7 +99,7 @@ final class AddressChanged implements SerializablePayload
     public static function fromPayload(array $payload): SerializablePayload
     {
         return new AddressChanged(
-            UserId::fromString($payload['user_uuid']),
+            UserUuid::fromString($payload['user_uuid']),
             AddressUuid::fromString($payload['old_address_uuid']),
             (string) $payload['old_street_name'],
             (int) $payload['old_street_number'],

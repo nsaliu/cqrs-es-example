@@ -22,7 +22,7 @@ final class AddressChangedProjector implements Consumer
 
     public function applyAddressChanged(AddressChanged $event): void
     {
-        $user = $this->userRepository->findByUuid($event->getUserId());
+        $user = $this->userRepository->findByUuid($event->getUserUuid());
 
         $user->updateAddress(
             $event->getOldAddressUuid(),

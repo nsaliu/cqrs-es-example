@@ -4,27 +4,27 @@ declare(strict_types=1);
 
 namespace App\User\Application\Command;
 
-use App\User\Domain\UserId;
+use App\User\Domain\UserUuid;
 
 final class AddAddressCommand implements CommandInterface
 {
-    private UserId $userUuid;
+    private UserUuid $userUuid;
 
     private string $streetName;
 
     private int $streetNumber;
 
     public function __construct(
-        UserId $uuid,
+        UserUuid $userUuid,
         string $streetName,
         int $streetNumber
     ) {
-        $this->userUuid = $uuid;
+        $this->userUuid = $userUuid;
         $this->streetName = $streetName;
         $this->streetNumber = $streetNumber;
     }
 
-    public function getAggregateUuid(): UserId
+    public function getAggregateUuid(): UserUuid
     {
         return $this->userUuid;
     }
