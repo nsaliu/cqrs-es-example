@@ -140,7 +140,7 @@ class DoctrineUser
         return $this->address1StreetNumber;
     }
 
-    public function setAddress1(
+    public function updateAddress1(
         AddressUuid $addressUuid,
         string $streetName,
         int $streetNumber
@@ -172,7 +172,7 @@ class DoctrineUser
         return $this->address2StreetNumber;
     }
 
-    public function setAddress2(
+    public function updateAddress2(
         AddressUuid $addressUuid,
         string $streetName,
         int $streetNumber
@@ -187,6 +187,29 @@ class DoctrineUser
         $this->address2Uuid = null;
         $this->address2StreetName = null;
         $this->address2StreetNumber = null;
+    }
+
+    public function updateAddress(
+        AddressUuid $oldAddressUuid,
+        AddressUuid $newAddressUuid,
+        string $newAddressStreetName,
+        int $newAddressStreetNumber
+    ): void {
+        if ($this->address1Uuid !== null && $this->address1Uuid->equalsTo($oldAddressUuid)) {
+            $this->address1Uuid = $newAddressUuid;
+            $this->address1StreetName = $newAddressStreetName;
+            $this->address1StreetNumber = $newAddressStreetNumber;
+
+            return;
+        }
+
+        if ($this->address2Uuid !== null && $this->address2Uuid->equalsTo($oldAddressUuid)) {
+            $this->address2Uuid = $newAddressUuid;
+            $this->address2StreetName = $newAddressStreetName;
+            $this->address2StreetNumber = $newAddressStreetNumber;
+
+            return;
+        }
     }
 
     public function getCreatedAt(): DateTimeImmutable

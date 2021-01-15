@@ -25,7 +25,7 @@ final class SpecificAddressAddedProjector implements Consumer
         $user = $this->userRepository->findByUuid($event->getUserUuid());
 
         if ($user->getAddress1Uuid() === null) {
-            $user->setAddress1(
+            $user->updateAddress1(
                 $event->getAddressUuid(),
                 $event->getStreetName(),
                 $event->getStreetNumber()
@@ -38,7 +38,7 @@ final class SpecificAddressAddedProjector implements Consumer
         }
 
         if ($user->getAddress2Uuid() === null) {
-            $user->setAddress2(
+            $user->updateAddress2(
                 $event->getAddressUuid(),
                 $event->getStreetName(),
                 $event->getStreetNumber()

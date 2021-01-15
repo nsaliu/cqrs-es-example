@@ -7,6 +7,7 @@ namespace App\User\Domain;
 use App\User\Domain\Address\Address;
 use App\User\Domain\Address\AddressUuid;
 use App\User\Domain\Event\AddressAdded;
+use App\User\Domain\Event\AddressChanged;
 use App\User\Domain\Event\AddressRemoved;
 use App\User\Domain\Event\SpecificAddressAdded;
 use App\User\Domain\Event\UserNameUpdated;
@@ -15,6 +16,7 @@ use App\User\Domain\Exception\Address\AddressStreetNameIsInvalidException;
 use App\User\Domain\Exception\Address\AddressStreetNumberIsInvalidException;
 use App\User\Domain\Exception\AddressLimitReached;
 use App\User\Domain\Exception\ArressIsAlreadyAssociatedToUserException;
+use App\User\Domain\Exception\CannotChangeAddressBecauseTheirAreEquals;
 use App\User\Domain\Exception\CannotRemoveNonExistentAddressException;
 use App\User\Domain\Exception\UserNamePropertyIsTooShort;
 use App\User\Domain\Service\AddressDomainService;
@@ -154,6 +156,33 @@ final class User implements AggregateRoot
         );
     }
 
+    public function changeAddress(
+        UserId $userId,
+        AddressUuid $oldAddressUuid,
+        string $oldStreetName,
+        int $oldStreetNumber,
+        AddressUuid $newAddressUuid,
+        string $newStreetName,
+        int $newStreetNumber
+    ): void {
+        if ($oldStreetName === $newStreetName &&
+            $oldStreetNumber === $newStreetNumber) {
+            throw new CannotChangeAddressBecauseTheirAreEquals($oldStreetName, $oldStreetNumber, $newStreetName, $newStreetNumber);
+        }
+
+        $this->recordThat(
+            new AddressChanged(
+                $userId,
+                $oldAddressUuid,
+                $oldStreetName,
+                $oldStreetNumber,
+                $newAddressUuid,
+                $newStreetName,
+                $newStreetNumber
+            )
+        );
+    }
+
     public function applyUserRegistered(UserRegistered $event): void
     {
         $this->name = $event->getName();
@@ -186,5 +215,16 @@ final class User implements AggregateRoot
     public function applyAddressRemoved(AddressRemoved $event): void
     {
         unset($this->addresses[$event->getAddressUuid()->toString()]);
+    }
+
+    public function applyAddressChanged(AddressChanged $event): void
+    {
+        unset($this->addresses[$event->getOldAddressUuid()->toString()]);
+
+        $this->addresses[$event->getNewAddressUuid()->toString()] = new Address(
+            $event->getNewAddressUuid(),
+            $event->getNewStreetName(),
+            $event->getNewStreetNumber()
+        );
     }
 }
