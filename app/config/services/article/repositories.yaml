@@ -1,0 +1,13 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: false
+
+    App\Article\Infrastructure\Doctrine\Repository\ArticleAggregateRepository:
+        arguments:
+            $aggregateRootRepository: '@jphooiveld_eventsauce.aggregate_repository.user'
+
+    App\Article\Domain\Repository\ArticleRepositoryInterface:
+        alias: App\Article\Infrastructure\Doctrine\Repository\ArticleAggregateRepository
+
+    App\Article\Infrastructure\Doctrine\Repository\DoctrineArticleRepository: ~

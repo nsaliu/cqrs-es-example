@@ -25,6 +25,7 @@ jphooiveld_event_sauce:
         # Configure provided aggregate roots to use the default repository implementations as created by the bundle
         aggregates:
             - App\User\Domain\User
+            - App\Article\Domain\Article
     snapshot_repository:
         # User snapshotting
         enabled: false

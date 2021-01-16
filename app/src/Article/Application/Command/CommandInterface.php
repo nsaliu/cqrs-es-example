@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\User\Application\Command;
+namespace App\Article\Application\Command;
 
 use App\Shared\Infrastructure\Uuid\UuidInterface;
 

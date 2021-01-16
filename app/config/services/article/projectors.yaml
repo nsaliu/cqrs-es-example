@@ -1,0 +1,9 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: false
+
+    App\Article\Infrastructure\Doctrine\Projector\:
+        resource: '%kernel.project_dir%/src/Article/Infrastructure/Doctrine/Projector/*Projector.php'
+        tags:
+            - { name: messenger.message_handler, bus: messenger.bus.events }

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\User\Application\Command;
 
+use App\Shared\Infrastructure\Uuid\UuidInterface;
 use App\User\Domain\Address\AddressUuid;
 use App\User\Domain\UserUuid;
-use App\User\Domain\UuidInterface;
 
 final class RemoveAddressCommand implements CommandInterface
 {

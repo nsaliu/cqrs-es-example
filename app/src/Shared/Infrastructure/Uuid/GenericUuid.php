@@ -2,13 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\User\Domain\Address;
+namespace App\Shared\Infrastructure\Uuid;
 
-use App\Shared\Infrastructure\Uuid\UuidInterface;
-use App\User\Domain\Exception\Address\AddressUuidCannotBeCreatedException;
+use App\Shared\Infrastructure\Uuid\Exception\InvalidUuidFormatException;
 use Ramsey\Uuid\Uuid;
 
-final class AddressUuid implements UuidInterface
+final class GenericUuid implements UuidInterface
 {
     private string $uuid;
 
@@ -17,23 +16,13 @@ final class AddressUuid implements UuidInterface
         $this->uuid = Uuid::fromString($uuid)->toString();
     }
 
-    public function __toString()
-    {
-        return (string) $this->uuid;
-    }
-
     public static function fromString(string $uuid): self
     {
         if (!Uuid::isValid($uuid)) {
-            throw new AddressUuidCannotBeCreatedException($uuid);
+            throw new InvalidUuidFormatException($uuid);
         }
 
         return new self($uuid);
-    }
-
-    public static function createNew(): self
-    {
-        return new self(Uuid::uuid4()->toString());
     }
 
     public function equalsTo(UuidInterface $uuid): bool
@@ -44,5 +33,10 @@ final class AddressUuid implements UuidInterface
     public function toString(): string
     {
         return $this->__toString();
+    }
+
+    public function __toString()
+    {
+        return (string) $this->uuid;
     }
 }

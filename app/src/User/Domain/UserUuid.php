@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\User\Domain;
 
+use App\Shared\Infrastructure\Uuid\UuidInterface;
 use App\User\Domain\Exception\UserUuidCannotBeCreatedException;
 use Ramsey\Uuid\Uuid;
 
