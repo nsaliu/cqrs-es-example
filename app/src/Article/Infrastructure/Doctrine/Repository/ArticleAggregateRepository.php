@@ -24,10 +24,10 @@ final class ArticleAggregateRepository implements ArticleRepositoryInterface
         $this->aggregateRootRepository->persist($article);
     }
 
-    public function get(ArticleUuid $userUuidUuid): Article
+    public function get(ArticleUuid $articleUuid): Article
     {
         /** @var Article $article */
-        $article = $this->aggregateRootRepository->retrieve($userUuidUuid);
+        $article = $this->aggregateRootRepository->retrieve($articleUuid);
 
         return $article;
     }

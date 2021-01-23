@@ -11,5 +11,5 @@ interface ArticleRepositoryInterface
 {
     public function save(Article $article): void;
 
-    public function get(ArticleUuid $userUuid): Article;
+    public function get(ArticleUuid $articleUuid): Article;
 }

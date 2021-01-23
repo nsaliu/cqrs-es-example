@@ -5,7 +5,7 @@ services:
 
     App\Article\Infrastructure\Doctrine\Repository\ArticleAggregateRepository:
         arguments:
-            $aggregateRootRepository: '@jphooiveld_eventsauce.aggregate_repository.user'
+            $aggregateRootRepository: '@jphooiveld_eventsauce.aggregate_repository.article'
 
     App\Article\Domain\Repository\ArticleRepositoryInterface:
         alias: App\Article\Infrastructure\Doctrine\Repository\ArticleAggregateRepository

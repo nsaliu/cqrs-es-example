@@ -6,3 +6,7 @@ services:
             - { name: console.command }
 
     App\Article\Application\Console\WriteNewArticleConsoleCommand: ~
+
+    App\Article\Application\Console\AddCommentConsoleCommand: ~
+
+    App\Article\Application\Console\GetArticleByUuidConsoleCommand: ~

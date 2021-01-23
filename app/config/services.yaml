@@ -1,9 +1,10 @@
 imports:
-    - { resource: services/jphooiveld_event_sauce.yaml }
     - { resource: services/article/commands.yaml }
     - { resource: services/article/console_commands.yaml }
-    - { resource: services/article/projectors.yaml }
+    - { resource: services/article/queries.yaml }
     - { resource: services/article/repositories.yaml }
+    - { resource: services/jphooiveld_event_sauce.yaml }
+    - { resource: services/shared/projectors.yaml }
     - { resource: services/user/commands.yaml }
     - { resource: services/user/console_commands.yaml }
     - { resource: services/user/domain_services.yaml }

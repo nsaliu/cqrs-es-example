@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Article\Application\Console;
 
-use App\Article\Application\Command\WriteNewArticleCommand;
+use App\Article\Application\Command\AddCommentCommand;
 use App\Article\Domain\ArticleUuid;
 use App\Article\Domain\AuthorUuid;
 use App\Shared\Infrastructure\Bus\CommandBusInterface;
@@ -14,11 +14,9 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-final class WriteNewArticleConsoleCommand extends Command
+final class AddCommentConsoleCommand extends Command
 {
-    protected static $defaultName = 'app:article:write-new-article';
-
-    private ArticleUuid $articleUiid;
+    protected static $defaultName = 'app:comment:add-new-comment';
 
     private CommandBusInterface $commandBus;
 
@@ -26,16 +24,14 @@ final class WriteNewArticleConsoleCommand extends Command
     {
         $this->commandBus = $commandBus;
 
-        $this->articleUiid = ArticleUuid::fromString('1de656fc-e04c-4bf3-9a5b-2f9a08a81fd2');
-
         parent::__construct();
     }
 
     protected function configure(): void
     {
-        $this->addArgument('author-uuid', InputArgument::REQUIRED, 'The author uuid');
+        $this->addArgument('article-uuid', InputArgument::REQUIRED, 'The article uuid');
 
-        $this->addArgument('title', InputArgument::REQUIRED, 'The article title');
+        $this->addArgument('author-uuid', InputArgument::REQUIRED, 'The author uuid');
 
         $this->addArgument('text', InputArgument::REQUIRED, 'The article text');
     }
@@ -44,16 +40,16 @@ final class WriteNewArticleConsoleCommand extends Command
         InputInterface $input,
         OutputInterface $output
     ): int {
+        $articleUuid = $input->getArgument('article-uuid');
+
+        if (!is_string($articleUuid)) {
+            throw new InvalidArgumentException('Article uuid must be a string');
+        }
+
         $authorUuid = $input->getArgument('author-uuid');
 
         if (!is_string($authorUuid)) {
             throw new InvalidArgumentException('Author uuid must be a string');
-        }
-
-        $title = $input->getArgument('title');
-
-        if (!is_string($title)) {
-            throw new InvalidArgumentException('Article title must be a string');
         }
 
         $text = $input->getArgument('text');
@@ -63,15 +59,14 @@ final class WriteNewArticleConsoleCommand extends Command
         }
 
         $this->commandBus->dispatch(
-            new WriteNewArticleCommand(
-                ArticleUuid::fromString($this->articleUiid->toString()),
+            new AddCommentCommand(
+                ArticleUuid::fromString($articleUuid),
                 AuthorUuid::fromString($authorUuid),
-                $title,
                 $text
             )
         );
 
-        $output->writeln('<info>Article created successfully.</info>');
+        $output->writeln('<info>Comment added successfully.</info>');
 
         return self::SUCCESS;
     }

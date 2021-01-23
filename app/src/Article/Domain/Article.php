@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Article\Domain;
 
+use App\Article\Domain\Comment\Comment;
 use App\Article\Domain\Event\ArticleWritten;
+use App\Article\Domain\Event\CommentAdded;
 use DateTimeImmutable;
 use DateTimeInterface;
 use EventSauce\EventSourcing\AggregateRoot;
@@ -23,6 +25,11 @@ final class Article implements AggregateRoot
     private DateTimeInterface $createdAt;
 
     private DateTimeInterface $updatedAt;
+
+    /**
+     * @var Comment[]
+     */
+    private array $comments = [];
 
     public static function create(ArticleUuid $articleUuid): self
     {
@@ -70,11 +77,36 @@ final class Article implements AggregateRoot
         );
     }
 
+    public function addComment(
+        ArticleUuid $articleUuid,
+        AuthorUuid $authorUuid,
+        string $text
+    ): void {
+        $this->recordThat(
+            new CommentAdded(
+                $articleUuid,
+                $authorUuid,
+                $text,
+                new DateTimeImmutable()
+            )
+        );
+    }
+
     public function applyArticleWritten(ArticleWritten $event): void
     {
         $this->authorUuid = $event->getAuthorUuid();
         $this->title = $event->getTitle();
         $this->text = $event->getText();
         $this->createdAt = $event->getOccurredAt();
+    }
+
+    public function applyCommentAdded(CommentAdded $event): void
+    {
+        $this->comments[] = new Comment(
+            $event->getArticleUuid(),
+            $event->getAuthorUuid(),
+            $event->getText(),
+            $event->getCreatedAt()
+        );
     }
 }

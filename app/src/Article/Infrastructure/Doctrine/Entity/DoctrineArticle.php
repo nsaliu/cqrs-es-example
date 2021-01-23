@@ -45,6 +45,24 @@ class DoctrineArticle
 
     /**
      * @ORM\Column(
+     *     name="author_name",
+     *     type="string",
+     *     nullable=false
+     * )
+     */
+    private string $authorName;
+
+    /**
+     * @ORM\Column(
+     *     name="author_surname",
+     *     type="string",
+     *     nullable=false
+     * )
+     */
+    private string $authorSurname;
+
+    /**
+     * @ORM\Column(
      *     name="title",
      *     type="string",
      *     nullable=false
@@ -73,12 +91,16 @@ class DoctrineArticle
     public function __construct(
         ArticleUuid $articleUuid,
         AuthorUuid $authorUuid,
+        string $authorName,
+        string $authorSurname,
         string $title,
         string $text,
         DateTimeInterface $createdAt
     ) {
         $this->articleUuid = $articleUuid;
         $this->authorUuid = $authorUuid;
+        $this->authorName = $authorName;
+        $this->authorSurname = $authorSurname;
         $this->title = $title;
         $this->text = $text;
         $this->createdAt = $createdAt;
@@ -92,6 +114,16 @@ class DoctrineArticle
     public function getAuthorUuid(): AuthorUuid
     {
         return $this->authorUuid;
+    }
+
+    public function getAuthorName(): string
+    {
+        return $this->authorName;
+    }
+
+    public function getAuthorSurname(): string
+    {
+        return $this->authorSurname;
     }
 
     public function getTitle(): string
