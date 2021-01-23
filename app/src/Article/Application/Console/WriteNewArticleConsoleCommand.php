@@ -6,8 +6,8 @@ namespace App\Article\Application\Console;
 
 use App\Article\Application\Command\WriteNewArticleCommand;
 use App\Article\Domain\ArticleUuid;
+use App\Article\Domain\AuthorUuid;
 use App\Shared\Infrastructure\Bus\CommandBusInterface;
-use App\Shared\Infrastructure\Uuid\GenericUuid;
 use InvalidArgumentException;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Console\Command\Command;
@@ -62,7 +62,7 @@ final class WriteNewArticleConsoleCommand extends Command
         $this->commandBus->dispatch(
             new WriteNewArticleCommand(
                 ArticleUuid::fromString(Uuid::uuid4()->toString()),
-                GenericUuid::fromString($authorUuid),
+                AuthorUuid::fromString($authorUuid),
                 $title,
                 $text
             )

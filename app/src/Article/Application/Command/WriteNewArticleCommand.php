@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Article\Application\Command;
 
 use App\Article\Domain\ArticleUuid;
-use App\Shared\Infrastructure\Uuid\UuidInterface;
+use App\Article\Domain\AuthorUuid;
 
 final class WriteNewArticleCommand implements CommandInterface
 {
     private ArticleUuid $articleUuid;
 
-    private UuidInterface $authorUuid;
+    private AuthorUuid $authorUuid;
 
     private string $title;
 
@@ -19,7 +19,7 @@ final class WriteNewArticleCommand implements CommandInterface
 
     public function __construct(
         ArticleUuid $articleUuid,
-        UuidInterface $authorUuid,
+        AuthorUuid $authorUuid,
         string $title,
         string $text
     ) {
@@ -34,7 +34,7 @@ final class WriteNewArticleCommand implements CommandInterface
         return $this->articleUuid;
     }
 
-    public function getAuthorUuid(): UuidInterface
+    public function getAuthorUuid(): AuthorUuid
     {
         return $this->authorUuid;
     }

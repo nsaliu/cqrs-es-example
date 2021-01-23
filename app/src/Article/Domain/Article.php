@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Article\Domain;
 
 use App\Article\Domain\Event\ArticleWritten;
-use App\Shared\Infrastructure\Uuid\UuidInterface;
 use DateTimeImmutable;
 use DateTimeInterface;
 use EventSauce\EventSourcing\AggregateRoot;
@@ -15,7 +14,7 @@ final class Article implements AggregateRoot
 {
     use AggregateRootBehaviour;
 
-    private UuidInterface $authorUuid;
+    private AuthorUuid $authorUuid;
 
     private string $title;
 
@@ -30,7 +29,7 @@ final class Article implements AggregateRoot
         return new static($articleUuid);
     }
 
-    public function getAuthorUuid(): UuidInterface
+    public function getAuthorUuid(): AuthorUuid
     {
         return $this->authorUuid;
     }
@@ -56,7 +55,7 @@ final class Article implements AggregateRoot
     }
 
     public function writeNew(
-        UuidInterface $authorUuid,
+        AuthorUuid $authorUuid,
         string $title,
         string $text
     ): void {

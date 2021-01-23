@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Article\Infrastructure\Doctrine\Entity;
 
 use App\Article\Domain\ArticleUuid;
-use App\Shared\Infrastructure\Uuid\UuidInterface;
+use App\Article\Domain\AuthorUuid;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -36,12 +36,12 @@ class DoctrineArticle
     /**
      * @ORM\Column(
      *     name="author_uuid",
-     *     type="generic_uuid",
+     *     type="author_uuid",
      *     nullable=false,
      *     length=36
      * )
      */
-    private UuidInterface $authorUuid;
+    private AuthorUuid $authorUuid;
 
     /**
      * @ORM\Column(
@@ -72,7 +72,7 @@ class DoctrineArticle
 
     public function __construct(
         ArticleUuid $articleUuid,
-        UuidInterface $authorUuid,
+        AuthorUuid $authorUuid,
         string $title,
         string $text,
         DateTimeInterface $createdAt
@@ -89,7 +89,7 @@ class DoctrineArticle
         return $this->articleUuid;
     }
 
-    public function getAuthorUuid(): UuidInterface
+    public function getAuthorUuid(): AuthorUuid
     {
         return $this->authorUuid;
     }

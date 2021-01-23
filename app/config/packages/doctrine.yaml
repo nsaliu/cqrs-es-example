@@ -6,23 +6,22 @@ doctrine:
             # user
             user_uuid: App\User\Infrastructure\Doctrine\Type\UserUuidType
             address_uuid: App\User\Infrastructure\Doctrine\Type\AddressUuidType
-
             # article
             article_uuid: App\Article\Infrastructure\Doctrine\Type\ArticleUuidType
-
-            # shared
-            generic_uuid: App\Shared\Infrastructure\Doctrine\Type\GenericUuidType
+            author_uuid: App\Article\Infrastructure\Doctrine\Type\AuthorUuidType
     orm:
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: true
         mappings:
+            # User
             App\User\Infrastructure\Doctrine\Entity:
                 is_bundle: false
                 type: annotation
                 dir: '%kernel.project_dir%/src/User/Infrastructure/Doctrine/Entity'
                 prefix: 'App\User\Infrastructure\Doctrine\Entity'
                 alias: App
+            # Article
             App\Article\Infrastructure\Doctrine\Entity:
                 is_bundle: false
                 type: annotation

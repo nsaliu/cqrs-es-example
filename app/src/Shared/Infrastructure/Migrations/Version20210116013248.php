@@ -17,7 +17,7 @@ final class Version20210116013248 extends AbstractMigration
 CREATE TABLE projection_articles
 (
     uuid        VARCHAR(36)  NOT NULL COMMENT '(DC2Type:article_uuid)',
-    author_uuid VARCHAR(36)  NOT NULL COMMENT '(DC2Type:generic_uuid)',
+    author_uuid VARCHAR(36)  NOT NULL COMMENT '(DC2Type:author_uuid)',
     title       VARCHAR(255) NOT NULL,
     text        LONGTEXT     NOT NULL,
     created_at  DATE         NOT NULL COMMENT '(DC2Type:date_immutable)',

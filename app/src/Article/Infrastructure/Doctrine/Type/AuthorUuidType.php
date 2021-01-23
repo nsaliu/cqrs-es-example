@@ -2,44 +2,43 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Infrastructure\Doctrine\Type;
+namespace App\Article\Infrastructure\Doctrine\Type;
 
-use App\Shared\Infrastructure\Uuid\GenericUuid;
-use App\Shared\Infrastructure\Uuid\UuidInterface;
+use App\Article\Domain\AuthorUuid;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
 use Throwable;
 
-final class GenericUuidType extends Type
+final class AuthorUuidType extends Type
 {
-    private const TYPE_NAME = 'generic_uuid';
+    private const TYPE_NAME = 'author_uuid';
 
     public function convertToDatabaseValue(
         $value,
         AbstractPlatform $platform
     ): string {
-        if ($value instanceof UuidInterface) {
+        if ($value instanceof AuthorUuid) {
             return $value->toString();
         }
 
         try {
-            return GenericUuid::fromString($value)->toString();
+            return AuthorUuid::fromString($value)->toString();
         } catch (Throwable $exception) {
-            throw ConversionException::conversionFailedInvalidType($value, $this->getName(), [GenericUuid::class]);
+            throw ConversionException::conversionFailedInvalidType($value, $this->getName(), [AuthorUuid::class]);
         }
     }
 
     public function convertToPHPValue(
         $value,
         AbstractPlatform $platform
-    ): UuidInterface {
-        if ($value instanceof UuidInterface) {
+    ): AuthorUuid {
+        if ($value instanceof AuthorUuid) {
             return $value;
         }
 
         try {
-            return GenericUuid::fromString($value);
+            return AuthorUuid::fromString($value);
         } catch (Throwable $exception) {
             throw ConversionException::conversionFailed($value, $this->getName());
         }

@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace App\Article\Domain\Event;
 
 use App\Article\Domain\ArticleUuid;
-use App\Shared\Infrastructure\Uuid\GenericUuid;
-use App\Shared\Infrastructure\Uuid\UuidInterface;
+use App\Article\Domain\AuthorUuid;
 use DateTimeImmutable;
 use DateTimeInterface;
 use EventSauce\EventSourcing\Serialization\SerializablePayload;
@@ -16,7 +15,7 @@ final class ArticleWritten implements SerializablePayload
 {
     private ArticleUuid $articleUuid;
 
-    private UuidInterface $authorUuid;
+    private AuthorUuid $authorUuid;
 
     private string $title;
 
@@ -26,7 +25,7 @@ final class ArticleWritten implements SerializablePayload
 
     public function __construct(
         ArticleUuid $articleUuid,
-        UuidInterface $authorUuid,
+        AuthorUuid $authorUuid,
         string $title,
         string $text,
         DateTimeImmutable $occurredAt
@@ -43,7 +42,7 @@ final class ArticleWritten implements SerializablePayload
         return $this->articleUuid;
     }
 
-    public function getAuthorUuid(): UuidInterface
+    public function getAuthorUuid(): AuthorUuid
     {
         return $this->authorUuid;
     }
@@ -93,7 +92,7 @@ final class ArticleWritten implements SerializablePayload
 
         return new ArticleWritten(
             ArticleUuid::fromString($payload['article_uuid']),
-            GenericUuid::fromString($payload['author_uuid']),
+            AuthorUuid::fromString($payload['author_uuid']),
             (string) $payload['title'],
             (string) $payload['text'],
             $occurredAt
