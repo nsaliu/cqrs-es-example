@@ -18,10 +18,11 @@ final class AddCommentCommandHandler implements MessageSubscriberInterface
 
     public function __invoke(AddCommentCommand $command): void
     {
-        $article = $this->articleRepository->get($command->getAggregateUuid());
+        $article = $this->articleRepository->get($command->getArticleUuid());
 
         $article->addComment(
             $command->getAggregateUuid(),
+            $command->getArticleUuid(),
             $command->getAuthorUuid(),
             $command->getText()
         );

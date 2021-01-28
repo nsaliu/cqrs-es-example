@@ -78,12 +78,14 @@ final class Article implements AggregateRoot
     }
 
     public function addComment(
+        CommentUuid $commentUuid,
         ArticleUuid $articleUuid,
         AuthorUuid $authorUuid,
         string $text
     ): void {
         $this->recordThat(
             new CommentAdded(
+                $commentUuid,
                 $articleUuid,
                 $authorUuid,
                 $text,
@@ -103,6 +105,7 @@ final class Article implements AggregateRoot
     public function applyCommentAdded(CommentAdded $event): void
     {
         $this->comments[] = new Comment(
+            $event->getCommentUuid(),
             $event->getArticleUuid(),
             $event->getAuthorUuid(),
             $event->getText(),

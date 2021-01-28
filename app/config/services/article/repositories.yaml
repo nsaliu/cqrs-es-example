@@ -11,3 +11,5 @@ services:
         alias: App\Article\Infrastructure\Doctrine\Repository\ArticleAggregateRepository
 
     App\Article\Infrastructure\Doctrine\Repository\DoctrineArticleRepository: ~
+
+    App\Article\Infrastructure\Doctrine\Repository\DoctrineCommentRepository: ~

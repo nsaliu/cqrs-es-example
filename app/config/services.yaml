@@ -1,6 +1,7 @@
 imports:
     - { resource: services/article/commands.yaml }
     - { resource: services/article/console_commands.yaml }
+    - { resource: services/article/projectors.yaml }
     - { resource: services/article/queries.yaml }
     - { resource: services/article/repositories.yaml }
     - { resource: services/jphooiveld_event_sauce.yaml }

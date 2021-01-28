@@ -7,6 +7,7 @@ namespace App\Article\Application\Console;
 use App\Article\Application\Command\AddCommentCommand;
 use App\Article\Domain\ArticleUuid;
 use App\Article\Domain\AuthorUuid;
+use App\Article\Domain\CommentUuid;
 use App\Shared\Infrastructure\Bus\CommandBusInterface;
 use InvalidArgumentException;
 use Symfony\Component\Console\Command\Command;
@@ -20,9 +21,13 @@ final class AddCommentConsoleCommand extends Command
 
     private CommandBusInterface $commandBus;
 
+    private CommentUuid $commentUuid;
+
     public function __construct(CommandBusInterface $commandBus)
     {
         $this->commandBus = $commandBus;
+
+        $this->commentUuid = CommentUuid::createNew();
 
         parent::__construct();
     }
@@ -60,6 +65,7 @@ final class AddCommentConsoleCommand extends Command
 
         $this->commandBus->dispatch(
             new AddCommentCommand(
+                $this->commentUuid,
                 ArticleUuid::fromString($articleUuid),
                 AuthorUuid::fromString($authorUuid),
                 $text

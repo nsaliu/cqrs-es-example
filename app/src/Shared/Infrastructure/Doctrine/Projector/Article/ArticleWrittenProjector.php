@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Infrastructure\Doctrine\Projector;
+namespace App\Shared\Infrastructure\Doctrine\Projector\Article;
 
 use App\Article\Domain\Event\ArticleWritten;
 use App\Article\Infrastructure\Doctrine\Entity\DoctrineArticle;

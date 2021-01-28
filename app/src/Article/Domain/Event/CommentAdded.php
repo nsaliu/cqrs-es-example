@@ -6,12 +6,15 @@ namespace App\Article\Domain\Event;
 
 use App\Article\Domain\ArticleUuid;
 use App\Article\Domain\AuthorUuid;
+use App\Article\Domain\CommentUuid;
 use DateTimeImmutable;
 use EventSauce\EventSourcing\Serialization\SerializablePayload;
 use InvalidArgumentException;
 
 final class CommentAdded implements SerializablePayload
 {
+    private CommentUuid $commentUuid;
+
     private ArticleUuid $articleUuid;
 
     private AuthorUuid $authorUuid;
@@ -21,15 +24,22 @@ final class CommentAdded implements SerializablePayload
     private DateTimeImmutable $occurredAt;
 
     public function __construct(
+        CommentUuid $commentUuid,
         ArticleUuid $articleUuid,
         AuthorUuid $authorUuid,
         string $text,
         DateTimeImmutable $occurredAt
     ) {
+        $this->commentUuid = $commentUuid;
         $this->articleUuid = $articleUuid;
         $this->authorUuid = $authorUuid;
         $this->text = $text;
         $this->occurredAt = $occurredAt;
+    }
+
+    public function getCommentUuid(): CommentUuid
+    {
+        return $this->commentUuid;
     }
 
     public function getArticleUuid(): ArticleUuid
@@ -58,6 +68,7 @@ final class CommentAdded implements SerializablePayload
     public function toPayload(): array
     {
         return [
+            'comment_uuid' => $this->commentUuid->toString(),
             'article_uuid' => $this->articleUuid->toString(),
             'author_uuid' => $this->authorUuid->toString(),
             'text' => $this->text,
@@ -80,6 +91,7 @@ final class CommentAdded implements SerializablePayload
         }
 
         return new CommentAdded(
+            CommentUuid::fromString($payload['comment_uuid']),
             ArticleUuid::fromString($payload['article_uuid']),
             AuthorUuid::fromString($payload['author_uuid']),
             $payload['text'],
