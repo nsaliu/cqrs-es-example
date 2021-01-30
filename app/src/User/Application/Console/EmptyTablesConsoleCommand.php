@@ -26,6 +26,8 @@ final class EmptyTablesConsoleCommand extends Command
     {
         $this->connection->executeUpdate('TRUNCATE TABLE events');
         $this->connection->executeUpdate('TRUNCATE TABLE projection_users');
+        $this->connection->executeUpdate('TRUNCATE TABLE projection_articles');
+        $this->connection->executeUpdate('TRUNCATE TABLE projection_comments');
 
         $output->writeln('<info>Tables are now empty</info>');
 
