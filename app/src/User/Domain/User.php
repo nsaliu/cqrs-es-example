@@ -52,7 +52,6 @@ final class User implements AggregateRoot
     }
 
     public function registerUser(
-        UserUuid $userUuid,
         string $name,
         string $surname
     ): void {
@@ -66,7 +65,7 @@ final class User implements AggregateRoot
 
         $this->recordThat(
             new UserRegistered(
-                $userUuid,
+                UserUuid::fromString($this->aggregateRootId->toString()),
                 $name,
                 $surname
             )

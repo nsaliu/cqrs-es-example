@@ -22,7 +22,6 @@ final class RegisterUserCommandHandler implements MessageSubscriberInterface
         $user = User::create($command->getAggregateUuid());
 
         $user->registerUser(
-            $command->getAggregateUuid(),
             $command->getName(),
             $command->getSurname()
         );
