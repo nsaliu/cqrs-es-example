@@ -7,6 +7,7 @@ namespace App\Article\Domain;
 use App\Article\Domain\Comment\Comment;
 use App\Article\Domain\Event\ArticleWritten;
 use App\Article\Domain\Event\CommentAdded;
+use App\Article\Domain\Event\CommentDeleted;
 use DateTimeImmutable;
 use DateTimeInterface;
 use EventSauce\EventSourcing\AggregateRoot;
@@ -94,6 +95,20 @@ final class Article implements AggregateRoot
         );
     }
 
+    public function deleteComment(
+        ArticleUuid $articleUuid,
+        CommentUuid $commentUuid,
+        AuthorUuid $authorUuid
+    ): void {
+        $this->recordThat(
+            new CommentDeleted(
+                $articleUuid,
+                $commentUuid,
+                $authorUuid
+            )
+        );
+    }
+
     public function applyArticleWritten(ArticleWritten $event): void
     {
         $this->authorUuid = $event->getAuthorUuid();
@@ -111,5 +126,21 @@ final class Article implements AggregateRoot
             $event->getText(),
             $event->getCreatedAt()
         );
+    }
+
+    public function applyCommentDeleted(CommentDeleted $event): void
+    {
+        $comments = array_filter(
+            $this->comments,
+            function (Comment $comment) use ($event) {
+                return $comment
+                    ->getCommentUuid()
+                    ->equalsTo(
+                        $event->getCommentUuid()
+                    );
+            }
+        );
+
+        $this->comments = $comments;
     }
 }

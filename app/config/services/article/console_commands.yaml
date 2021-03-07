@@ -10,3 +10,5 @@ services:
     App\Article\Application\Console\AddCommentConsoleCommand: ~
 
     App\Article\Application\Console\GetArticleByUuidConsoleCommand: ~
+
+    App\Article\Application\Console\DeleteCommentConsoleCommand: ~

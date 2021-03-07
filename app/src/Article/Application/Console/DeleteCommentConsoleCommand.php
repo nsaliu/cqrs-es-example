@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Article\Application\Console;
 
-use App\Article\Application\Command\AddCommentCommand;
+use App\Article\Application\Command\DeleteCommentCommand;
 use App\Article\Domain\ArticleUuid;
 use App\Article\Domain\AuthorUuid;
 use App\Article\Domain\CommentUuid;
@@ -15,19 +15,15 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-final class AddCommentConsoleCommand extends Command
+final class DeleteCommentConsoleCommand extends Command
 {
-    protected static $defaultName = 'app:comment:add-new-comment';
+    protected static $defaultName = 'app:comment:delete';
 
     private CommandBusInterface $commandBus;
-
-    private CommentUuid $commentUuid;
 
     public function __construct(CommandBusInterface $commandBus)
     {
         $this->commandBus = $commandBus;
-
-        $this->commentUuid = CommentUuid::createNew();
 
         parent::__construct();
     }
@@ -36,9 +32,9 @@ final class AddCommentConsoleCommand extends Command
     {
         $this->addArgument('article-uuid', InputArgument::REQUIRED, 'The article uuid');
 
-        $this->addArgument('author-uuid', InputArgument::REQUIRED, 'The author uuid');
+        $this->addArgument('comment-uuid', InputArgument::REQUIRED, 'The comment uuid');
 
-        $this->addArgument('text', InputArgument::REQUIRED, 'The comment text');
+        $this->addArgument('author-uuid', InputArgument::REQUIRED, 'The author uuid');
     }
 
     protected function execute(
@@ -51,28 +47,27 @@ final class AddCommentConsoleCommand extends Command
             throw new InvalidArgumentException('Article uuid must be a string');
         }
 
+        $commentUuid = $input->getArgument('comment-uuid');
+
+        if (!is_string($commentUuid)) {
+            throw new InvalidArgumentException('Comment uuid must be a string');
+        }
+
         $authorUuid = $input->getArgument('author-uuid');
 
         if (!is_string($authorUuid)) {
             throw new InvalidArgumentException('Author uuid must be a string');
         }
 
-        $text = $input->getArgument('text');
-
-        if (!is_string($text)) {
-            throw new InvalidArgumentException('Comment text must be a string');
-        }
-
         $this->commandBus->dispatch(
-            new AddCommentCommand(
-                $this->commentUuid,
+            new DeleteCommentCommand(
                 ArticleUuid::fromString($articleUuid),
-                AuthorUuid::fromString($authorUuid),
-                $text
+                CommentUuid::fromString($commentUuid),
+                AuthorUuid::fromString($authorUuid)
             )
         );
 
-        $output->writeln('<info>Comment added successfully.</info>');
+        $output->writeln('<info>Comment deleted successfully.</info>');
 
         return self::SUCCESS;
     }

@@ -31,6 +31,11 @@ final class DoctrineCommentRepository extends ServiceEntityRepository
         return $comment;
     }
 
+    public function remove(DoctrineComment $comment): void
+    {
+        $this->getEntityManager()->remove($comment);
+    }
+
     public function persist(DoctrineComment $comment): void
     {
         $this->getEntityManager()->persist($comment);
