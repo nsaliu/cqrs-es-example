@@ -104,7 +104,8 @@ final class Article implements AggregateRoot
             new CommentDeleted(
                 $articleUuid,
                 $commentUuid,
-                $authorUuid
+                $authorUuid,
+                new DateTimeImmutable()
             )
         );
     }

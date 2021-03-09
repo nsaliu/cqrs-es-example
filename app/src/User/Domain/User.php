@@ -19,6 +19,7 @@ use App\User\Domain\Exception\ArressIsAlreadyAssociatedToUserException;
 use App\User\Domain\Exception\CannotChangeAddressBecauseTheirAreEquals;
 use App\User\Domain\Exception\CannotRemoveNonExistentAddressException;
 use App\User\Domain\Exception\UserNamePropertyIsTooShort;
+use App\User\Domain\Exception\UserSurnamePropertyIsTooShort;
 use App\User\Domain\Service\AddressDomainService;
 use EventSauce\EventSourcing\AggregateRoot;
 use EventSauce\EventSourcing\AggregateRootBehaviour;
@@ -51,7 +52,7 @@ final class User implements AggregateRoot
         return $this->surname;
     }
 
-    public function registerUser(
+    public function register(
         string $name,
         string $surname
     ): void {
@@ -60,7 +61,7 @@ final class User implements AggregateRoot
         }
 
         if (mb_strlen($surname) === 0) {
-            throw new UserNamePropertyIsTooShort();
+            throw new UserSurnamePropertyIsTooShort();
         }
 
         $this->recordThat(

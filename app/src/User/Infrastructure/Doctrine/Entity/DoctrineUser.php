@@ -115,7 +115,7 @@ class DoctrineUser
         return $this->name;
     }
 
-    public function setName(string $name): void
+    public function updateName(string $name): void
     {
         $this->name = $name;
     }
