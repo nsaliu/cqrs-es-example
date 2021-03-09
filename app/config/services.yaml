@@ -1,6 +1,7 @@
 imports:
     - { resource: services/repositories.yaml }
     - { resource: services/console_commands.yaml }
+    - { resource: services/translators.yaml }
 
 parameters: ~
 
@@ -21,7 +22,7 @@ services:
     App\User\Application\Command\:
         resource: '../src/User/Application/Command/*Handler.php'
         tags:
-            - {name: messenger.message_handler, bus: messenger.bus.command }
+            - { name: messenger.message_handler, bus: messenger.bus.command }
 
     # query bus
     App\User\Infrastructure\Messenger\MessengerQueryBus:

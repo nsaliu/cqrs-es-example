@@ -10,14 +10,14 @@ final class UpdateUserNameCommand implements CommandInterface
 {
     private UserUuid $uuid;
 
-    private string $userName;
+    private string $name;
 
     public function __construct(
         UserUuid $uuid,
-        string $userName
+        string $name
     ) {
         $this->uuid = $uuid;
-        $this->userName = $userName;
+        $this->name = $name;
     }
 
     public function getUuid(): UserUuid
@@ -25,8 +25,8 @@ final class UpdateUserNameCommand implements CommandInterface
         return $this->uuid;
     }
 
-    public function getUserName(): string
+    public function getName(): string
     {
-        return $this->userName;
+        return $this->name;
     }
 }

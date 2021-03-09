@@ -20,7 +20,7 @@ final class UpdateUserNameCommandHandler implements MessageSubscriberInterface
     {
         $user = $this->userRepository->get($command->getUuid());
 
-        $user->updateName($command->getUserName());
+        $user->updateName($command->getName());
 
         $this->userRepository->update($user);
     }

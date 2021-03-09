@@ -9,13 +9,20 @@ use App\User\Domain\Repository\UserRepositoryInterface;
 use App\User\Domain\User;
 use App\User\Domain\UserUuid;
 use App\User\Infrastructure\Doctrine\Entity\DoctrineUser;
+use App\User\Infrastructure\Translator\UserTranslator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 final class UserRepository extends ServiceEntityRepository implements UserRepositoryInterface
 {
-    public function __construct(ManagerRegistry $registry)
-    {
+    private UserTranslator $userTranslator;
+
+    public function __construct(
+        ManagerRegistry $registry,
+        UserTranslator $userTranslator
+    ) {
+        $this->userTranslator = $userTranslator;
+
         parent::__construct(
             $registry,
             DoctrineUser::class
@@ -33,20 +40,12 @@ final class UserRepository extends ServiceEntityRepository implements UserReposi
             throw new UserNotFoundByUuidException($userId);
         }
 
-        return new User(
-            $doctrineUser->getUserUuid(),
-            $doctrineUser->getName(),
-            $doctrineUser->getSurname()
-        );
+        return $this->userTranslator->fromDoctrineEntityToDomainModel($doctrineUser);
     }
 
     public function save(User $user): void
     {
-        $doctrineUser = new DoctrineUser(
-            $user->getUserUuid(),
-            $user->getName(),
-            $user->getSurname()
-        );
+        $doctrineUser = $this->userTranslator->fromDomainModelToDoctrineEntity($user);
 
         $this->getEntityManager()->persist($doctrineUser);
         $this->getEntityManager()->flush();
@@ -64,6 +63,7 @@ final class UserRepository extends ServiceEntityRepository implements UserReposi
         }
 
         $doctrineUser->setName($user->getName());
+        $doctrineUser->setSurname($user->getSurname());
 
         $this->getEntityManager()->persist($doctrineUser);
         $this->getEntityManager()->flush();

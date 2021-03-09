@@ -1,0 +1,7 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: false
+        tags: { name: automapper_plus.configurator }
+
+    App\User\Infrastructure\Translator\UserTranslator: ~
